@@ -4,11 +4,17 @@ interface ResultModalProps {
   gameStatus: 'won' | 'lost';
   score: number;
   onRestart: () => void;
+  onClose: () => void;
+  grid: number[][]; // Added for sharing game state
 }
 
-const ResultModal: React.FC<ResultModalProps> = ({ gameStatus, score, onRestart }) => {
+const ResultModal: React.FC<ResultModalProps> = ({ gameStatus, score, onRestart, onClose, grid }) => {
   const [showShareCard, setShowShareCard] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const gridToString = (currentGrid: number[][]): string => {
+    return currentGrid.map(row => row.join('\t')).join('\n');
+  };
 
   const handleShare = () => {
     setShowShareCard(true);
@@ -26,31 +32,53 @@ const ResultModal: React.FC<ResultModalProps> = ({ gameStatus, score, onRestart 
           ctx.fillStyle = '#776e65';
           ctx.font = 'bold 24px Arial';
           ctx.textAlign = 'center';
-          ctx.fillText('2048 Game Result', canvas.width/2, 40);
+          ctx.fillText('2048 Game Result', canvas.width/2, 30);
           
-          ctx.font = '20px Arial';
-          ctx.fillText(`Score: ${score}`, canvas.width/2, 80);
+          ctx.font = '18px Arial';
+          ctx.fillText(`Score: ${score}`, canvas.width/2, 60);
+
+          // Draw grid
+          const tileSize = 20;
+          const padding = 2;
+          const gridSize = grid.length * (tileSize + padding) - padding;
+          const startX = (canvas.width - gridSize) / 2;
+          const startY = 80;
+
+          grid.forEach((row, i) => {
+            row.forEach((cell, j) => {
+              ctx.fillStyle = cell > 0 ? '#cdc1b4' : '#eee4da'; // Simplified colors for share card
+              ctx.fillRect(startX + j * (tileSize + padding), startY + i * (tileSize + padding), tileSize, tileSize);
+              if (cell > 0) {
+                ctx.fillStyle = '#776e65';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(cell.toString(), startX + j * (tileSize + padding) + tileSize / 2, startY + i * (tileSize + padding) + tileSize / 2);
+              }
+            });
+          });
           
           const now = new Date();
-          ctx.fillText(now.toLocaleString(), canvas.width/2, 120);
+          ctx.font = '12px Arial';
+          ctx.fillText(now.toLocaleDateString(), canvas.width/2, startY + gridSize + 20);
           
           // Convert to image and share
           canvas.toBlob(blob => {
+            const shareText = `I scored ${score} points in 2048!\nGame Board:\n${gridToString(grid)}`;
             if (blob && navigator.share) {
               navigator.share({
                 title: '2048 Game Result',
-                text: `I scored ${score} points in 2048!`,
+                text: shareText,
                 files: [new File([blob], '2048-result.png', { type: 'image/png' })]
               }).catch(() => {
                 // Fallback if share fails
-                canvas.toDataURL('image/png');
-                alert('Score copied to clipboard!');
+                navigator.clipboard.writeText(shareText);
+                alert('Result copied to clipboard!');
               });
             } else {
               // Fallback for browsers without Web Share API
-              canvas.toDataURL('image/png');
-              navigator.clipboard.writeText(`I scored ${score} points in 2048!`);
-              alert('Score copied to clipboard!');
+              navigator.clipboard.writeText(shareText);
+              alert('Result copied to clipboard!');
             }
           }, 'image/png');
         }
@@ -61,9 +89,16 @@ const ResultModal: React.FC<ResultModalProps> = ({ gameStatus, score, onRestart 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-8 rounded-lg shadow-xl text-center max-w-sm w-full">
-        <h2 className="text-3xl font-bold mb-4 text-gray-800">
-          {gameStatus === 'won' ? 'You Win!' : 'Game Over!'}
-        </h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-3xl font-bold text-gray-800">
+            {gameStatus === 'won' ? 'You Win!' : 'Game Over!'}
+          </h2>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
         <p className="text-xl text-gray-700 mb-6">Your score: {score}</p>
         
         <div className="flex justify-center space-x-4">
@@ -85,15 +120,16 @@ const ResultModal: React.FC<ResultModalProps> = ({ gameStatus, score, onRestart 
           <div className="mt-6 p-4 bg-gray-100 rounded-md border border-gray-300">
             <canvas 
               ref={canvasRef}
-              width={300}
-              height={150}
+              width={300} // Adjusted for grid display
+              height={250} // Adjusted for grid display
               className="hidden"
             />
-            <div className="text-gray-800">
+            {/* Preview of share card can be removed or kept based on preference */}
+            {/* <div className="text-gray-800">
               <h3 className="text-xl font-bold mb-2">2048 Game Result</h3>
               <p className="text-lg">Score: {score}</p>
-              <p className="text-sm text-gray-600">{new Date().toLocaleString()}</p>
-            </div>
+              <p className="text-sm text-gray-600">Grid will be included in share.</p>
+            </div> */}
           </div>
         )}
       </div>
