@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { 
-  Grid, Direction, 
+  type Grid, type Direction, 
   initializeGrid, moveTiles, 
   addRandomTile, isGameOver, 
   hasWon, GRID_SIZE 

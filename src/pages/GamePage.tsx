@@ -19,7 +19,7 @@ const GamePage: React.FC = () => {
   const [GameComponent, setGameComponent] = useState<React.FC<GameProps> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { gameStatus } = useGameState();
+  const { gameStatus } = useGameState(); // Assuming useGameState provides gameStatus
 
   useEffect(() => {
     if (gameId && gameComponents[gameId]) {
@@ -32,37 +32,45 @@ const GamePage: React.FC = () => {
         })
         .catch(err => {
           console.error("Failed to load game component:", err);
-          setError("Failed to load game. Please try again.");
+          setError("Oops! We couldn't load the game. Please try again or select another game.");
           setLoading(false);
         });
     } else {
-      setError("Game not found.");
+      setError("Sorry, the game you're looking for doesn't exist.");
       setLoading(false);
       setGameComponent(null);
     }
   }, [gameId]);
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen text-xl font-semibold">Loading game...</div>;
+    return (
+      <div className="flex flex-col justify-center items-center flex-grow text-2xl font-semibold text-purple-700">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500 mb-4"></div>
+        Loading Game Awesomeness...
+      </div>
+    );
   }
 
   if (error) {
     return (
-      <div className="flex flex-col justify-center items-center h-screen text-red-600 text-xl font-semibold">
-        <p>{error}</p>
+      <div className="flex flex-col justify-center items-center flex-grow text-center p-4">
+        <h2 className="text-3xl font-bold text-red-500 mb-4">Something Went Wrong</h2>
+        <p className="text-xl text-gray-700 mb-6">{error}</p>
         <button 
           onClick={() => navigate('/')} 
-          className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300"
+          className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 text-lg"
         >
-          Go to Home
+          Back to Game Selection
         </button>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      {GameComponent ? <GameComponent navigate={navigate} gameStatus={gameStatus} /> : null}
+    <div className="flex flex-col items-center justify-center flex-grow w-full">
+      {GameComponent ? <GameComponent navigate={navigate} gameStatus={gameStatus} /> : 
+        <div className="text-xl text-gray-500">Game component could not be rendered.</div>
+      }
     </div>
   );
 };

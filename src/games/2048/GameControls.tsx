@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import { Direction } from './GameLogic';
+import type { Direction } from './GameLogic';
 import { useSwipeable } from 'react-swipeable';
 
 interface GameControlsProps {
@@ -37,7 +37,6 @@ const GameControls: React.FC<GameControlsProps> = ({ move, children }) => {
     onSwipedRight: () => move('right'),
     onSwipedUp: () => move('up'),
     onSwipedDown: () => move('down'),
-    preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });
 
