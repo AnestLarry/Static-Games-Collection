@@ -37,6 +37,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
               {!isCollapsed && <span className="text-lg font-medium">2048 Game</span>}
             </Link>
           </li>
+          <li>
+            <Link 
+              to="/games/minesweeper"
+              className="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-200 group"
+            >
+              <span className="w-5 h-5 bg-blue-500 rounded-sm group-hover:bg-sky-500 transition-colors"></span>
+              {!isCollapsed && <span className="text-lg font-medium">Minesweeper</span>}
+            </Link>
+          </li>
           {/* Add more game links or other navigation items here */}
           {/* Example of a disabled/coming soon link */}
           <li>

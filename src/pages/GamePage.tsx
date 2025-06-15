@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useGameState } from '../games/2048/useGameState';
+// import { useGameState } from '../games/2048/useGameState'; // This is specific to 2048
 
 // Dynamically import game components
 const gameComponents: Record<string, () => Promise<{ default: React.FC<GameProps> }>> = {
   '2048': () => import('../games/2048/Game2048'),
+  'minesweeper': () => import('../games/minesweeper'), // Added Minesweeper
   // Add more games here
 };
 
 interface GameProps {
   navigate: (path: string) => void;
-  gameStatus: 'playing' | 'won' | 'lost';
+  gameStatus?: 'playing' | 'won' | 'lost'; // Made optional, each game can manage its own status
 }
 
 const GamePage: React.FC = () => {
@@ -19,7 +20,7 @@ const GamePage: React.FC = () => {
   const [GameComponent, setGameComponent] = useState<React.FC<GameProps> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { gameStatus } = useGameState(); // Assuming useGameState provides gameStatus
+  // const { gameStatus } = useGameState(); // Removed as it's 2048 specific
 
   useEffect(() => {
     if (gameId && gameComponents[gameId]) {
@@ -68,7 +69,8 @@ const GamePage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center flex-grow w-full">
-      {GameComponent ? <GameComponent navigate={navigate} gameStatus={gameStatus} /> : 
+      {/* Pass gameStatus only if GameComponent expects it, or adjust GameComponent props */}
+      {GameComponent ? <GameComponent navigate={navigate} /* gameStatus={gameStatus} */ /> : 
         <div className="text-xl text-gray-500">Game component could not be rendered.</div>
       }
     </div>

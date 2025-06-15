@@ -26,6 +26,20 @@ const HomePage: React.FC = () => {
             </span>
           </div>
         </Link>
+
+        {/* Game Card for Minesweeper */}
+        <Link 
+          to="/games/minesweeper" 
+          className="block bg-white rounded-xl shadow-2xl hover:shadow-blue-400/50 transform hover:-translate-y-1 transition-all duration-300 overflow-hidden group"
+        >
+          <div className="p-6">
+            <h2 className="text-2xl font-bold mb-3 text-blue-700 group-hover:text-sky-600 transition-colors">Minesweeper</h2>
+            <p className="text-gray-700 mb-4">The classic logic puzzle. Clear the board without detonating any mines!</p>
+            <span className="inline-block bg-blue-500 group-hover:bg-sky-500 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors">
+              Play Now
+            </span>
+          </div>
+        </Link>
         
         {/* Placeholder for another game card - you can duplicate and modify this structure */}
         <div 
