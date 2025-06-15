@@ -3,8 +3,13 @@ import GameBoard from './GameBoard';
 import GameControls from './GameControls';
 import ResultModal from './ResultModal';
 import { useGameState } from './useGameState';
+import GameHeader from './GameHeader';
 
-const Game2048: React.FC = () => {
+interface Game2048Props {
+  navigate: (path: string) => void;
+}
+
+const Game2048: React.FC<Game2048Props> = ({ navigate }) => {
   const {
     grid,
     score,
@@ -16,22 +21,25 @@ const Game2048: React.FC = () => {
   } = useGameState();
 
   return (
-    <GameControls move={move}>
-      <GameBoard 
-        grid={grid}
-        score={score}
-        bestScore={bestScore}
-        GRID_SIZE={GRID_SIZE}
-      />
-      
-      {(gameStatus === 'won' || gameStatus === 'lost') && (
-        <ResultModal 
-          gameStatus={gameStatus}
+    <div className="flex flex-col items-center">
+      <GameHeader gameStatus={gameStatus} navigate={navigate} />
+      <GameControls move={move}>
+        <GameBoard 
+          grid={grid}
           score={score}
-          onRestart={resetGame}
+          bestScore={bestScore}
+          GRID_SIZE={GRID_SIZE}
         />
-      )}
-    </GameControls>
+        
+        {(gameStatus === 'won' || gameStatus === 'lost') && (
+          <ResultModal 
+            gameStatus={gameStatus}
+            score={score}
+            onRestart={resetGame}
+          />
+        )}
+      </GameControls>
+    </div>
   );
 };
 

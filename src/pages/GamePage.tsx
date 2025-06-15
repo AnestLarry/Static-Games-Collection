@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useGameState } from '../games/2048/useGameState';
 
 // Dynamically import game components
-const gameComponents: Record<string, () => Promise<{ default: React.ComponentType<object> }>> = {
+const gameComponents: Record<string, () => Promise<{ default: React.FC<GameProps> }>> = {
   '2048': () => import('../games/2048/Game2048'),
   // Add more games here
 };
 
+interface GameProps {
+  navigate: (path: string) => void;
+  gameStatus: 'playing' | 'won' | 'lost';
+}
+
 const GamePage: React.FC = () => {
   const { gameId } = useParams<{ gameId: string }>();
   const navigate = useNavigate();
-const [GameComponent, setGameComponent] = useState<React.ComponentType<object> | null>(null);
+  const [GameComponent, setGameComponent] = useState<React.FC<GameProps> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { gameStatus } = useGameState();
 
   useEffect(() => {
     if (gameId && gameComponents[gameId]) {
@@ -55,13 +62,7 @@ const [GameComponent, setGameComponent] = useState<React.ComponentType<object> |
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <button 
-        onClick={() => navigate('/')} 
-        className="absolute top-4 left-4 px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition-colors duration-300"
-      >
-        &larr; Back to Home
-      </button>
-      {GameComponent ? <GameComponent /> : null}
+      {GameComponent ? <GameComponent navigate={navigate} gameStatus={gameStatus} /> : null}
     </div>
   );
 };
