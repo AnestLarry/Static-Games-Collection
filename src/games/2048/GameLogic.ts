@@ -27,31 +27,41 @@ export function addRandomTile(grid: Grid): void {
   }
 }
 
-export function moveTiles(grid: Grid, direction: Direction): { grid: Grid, score: number } {
+export function moveTiles(grid: Grid, direction: Direction): { grid: Grid, score: number, mergedCells: [number, number][] } {
   const newGrid = JSON.parse(JSON.stringify(grid));
   let score = 0;
+  const mergedCells: [number, number][] = [];
 
   // Process grid based on direction
   for (let i = 0; i < GRID_SIZE; i++) {
-    let rowOrCol = [];
+    let rowOrCol: number[] = [];
+    const currentLineCoords: [number, number][] = [];
     
-    // Extract row or column based on direction
+    // Extract row or column based on direction and store original coordinates
     if (direction === 'left' || direction === 'right') {
       rowOrCol = [...newGrid[i]];
+      for (let k = 0; k < GRID_SIZE; k++) currentLineCoords.push([i, k]);
     } else {
       for (let j = 0; j < GRID_SIZE; j++) {
         rowOrCol.push(newGrid[j][i]);
+        currentLineCoords.push([j, i]);
       }
     }
 
-    // Reverse if needed for processing
+    // Reverse if needed for processing (and reverse coordinates accordingly)
     if (direction === 'right' || direction === 'down') {
       rowOrCol.reverse();
+      currentLineCoords.reverse();
     }
 
     // Process tiles (remove zeros, merge, fill zeros)
     const processed = processLine(rowOrCol);
     score += processed.score;
+
+    // Collect merged cell coordinates
+    processed.mergedIndices.forEach(mergedIndex => {
+      mergedCells.push(currentLineCoords[mergedIndex]);
+    });
 
     // Reverse back if needed
     if (direction === 'right' || direction === 'down') {
@@ -68,29 +78,38 @@ export function moveTiles(grid: Grid, direction: Direction): { grid: Grid, score
     }
   }
 
-  return { grid: newGrid, score };
+  return { grid: newGrid, score, mergedCells };
 }
 
-function processLine(line: number[]): { line: number[], score: number } {
+function processLine(line: number[]): { line: number[], score: number, mergedIndices: number[] } {
   let score = 0;
   const nonZeros = line.filter(val => val !== 0);
   const result: number[] = [];
+  const mergedIndices: number[] = [];
+  let resultIndex = 0;
 
   for (let i = 0; i < nonZeros.length; i++) {
     if (i < nonZeros.length - 1 && nonZeros[i] === nonZeros[i + 1]) {
-      result.push(nonZeros[i] * 2);
-      score += nonZeros[i] * 2;
-      i++;
+      const mergedValue = nonZeros[i] * 2;
+      result.push(mergedValue);
+      score += mergedValue;
+      // Find original index in the 'line' array for the merged tile position
+      // This is tricky because 'result' array has different indexing due to merges and zero removal.
+      // We need to map the position in 'result' back to 'line' considering the direction of processing.
+      // The `mergedIndices` should refer to the position in the `result` array after merges.
+      mergedIndices.push(resultIndex);
+      i++; // Skip next element as it's merged
     } else {
       result.push(nonZeros[i]);
     }
+    resultIndex++;
   }
 
   while (result.length < GRID_SIZE) {
     result.push(0);
   }
 
-  return { line: result, score };
+  return { line: result, score, mergedIndices };
 }
 
 export function isGameOver(grid: Grid): boolean {

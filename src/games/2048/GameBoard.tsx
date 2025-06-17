@@ -5,9 +5,10 @@ interface GameBoardProps {
   score: number;
   bestScore: number;
   GRID_SIZE: number;
+  mergedCells?: [number, number][]; // Optional prop for merged cells
 }
 
-const GameBoard: React.FC<GameBoardProps> = ({ grid, score, bestScore, GRID_SIZE }) => {
+const GameBoard: React.FC<GameBoardProps> = ({ grid, score, bestScore, GRID_SIZE, mergedCells = [] }) => {
   const getTileColor = (value: number): string => {
     const colors: Record<number, string> = {
       0: '#cdc1b4',
@@ -32,6 +33,10 @@ const GameBoard: React.FC<GameBoardProps> = ({ grid, score, bestScore, GRID_SIZE
     return '2.5rem';
   };
 
+  const isMerged = (rowIndex: number, colIndex: number): boolean => {
+    return mergedCells.some(([row, col]) => row === rowIndex && col === colIndex);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center p-4 bg-gray-200 rounded-lg shadow-md">
       <div className="flex justify-between w-full max-w-md mb-4">
@@ -45,6 +50,35 @@ const GameBoard: React.FC<GameBoardProps> = ({ grid, score, bestScore, GRID_SIZE
         </div>
       </div>
 
+      <style>
+        {`
+          @keyframes tileAppear {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+          }
+
+          @keyframes tileMerge {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+          }
+
+          .tile {
+            transition: all 0.15s ease-in-out;
+            animation: tileAppear 0.2s ease-in-out;
+          }
+
+          .tile-merged {
+            animation: tileMerge 0.2s ease-in-out;
+          }
+
+          .tile-glow {
+            box-shadow: 0 0 20px rgba(243, 215, 116, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.2);
+          }
+        `}
+      </style>
+
       <div 
         className="grid bg-[#bbada0] rounded-md p-4"
         style={{
@@ -54,21 +88,27 @@ const GameBoard: React.FC<GameBoardProps> = ({ grid, score, bestScore, GRID_SIZE
         }}
       >
         {grid.flatMap((row, rowIndex) =>
-          row.map((value, colIndex) => (
-            <div
-              key={`${rowIndex}-${colIndex}`}
-              className="flex items-center justify-center rounded-md font-bold"
-              style={{
-                backgroundColor: getTileColor(value),
-                color: value > 4 ? '#f9f6f2' : '#776e65',
-                fontSize: getFontSize(value),
-                width: '80px', // Fixed size for tiles
-                height: '80px', // Fixed size for tiles
-              }}
-            >
-              {value !== 0 && value}
-            </div>
-          ))
+          row.map((value, colIndex) => {
+            const merged = isMerged(rowIndex, colIndex);
+            const highValue = value >= 128;
+            return (
+              <div
+                key={`${rowIndex}-${colIndex}`}
+                className={`flex items-center justify-center rounded-md font-bold tile
+                  ${merged ? 'tile-merged' : ''}
+                  ${highValue ? 'tile-glow' : ''}`}
+                style={{
+                  backgroundColor: getTileColor(value),
+                  color: value > 4 ? '#f9f6f2' : '#776e65',
+                  fontSize: getFontSize(value),
+                  width: '80px',
+                  height: '80px',
+                }}
+              >
+                {value !== 0 && value}
+              </div>
+            );
+          })
         )}
       </div>
     </div>

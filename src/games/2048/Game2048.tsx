@@ -17,7 +17,8 @@ const Game2048: React.FC<Game2048Props> = ({ navigate }) => {
     gameStatus,
     move,
     resetGame,
-    GRID_SIZE
+    GRID_SIZE,
+    mergedCells // Get mergedCells from useGameState
   } = useGameState();
   const [showResultModal, setShowResultModal] = useState(false);
 
@@ -49,6 +50,7 @@ const Game2048: React.FC<Game2048Props> = ({ navigate }) => {
           score={score}
           bestScore={bestScore}
           GRID_SIZE={GRID_SIZE}
+          mergedCells={mergedCells} // Pass mergedCells to GameBoard
         />
         
         {showResultModal && (gameStatus === 'won' || gameStatus === 'lost') && (
