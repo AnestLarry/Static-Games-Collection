@@ -5,7 +5,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 // Dynamically import game components
 const gameComponents: Record<string, () => Promise<{ default: React.FC<GameProps> }>> = {
   '2048': () => import('../games/2048/Game2048'),
-  'minesweeper': () => import('../games/minesweeper'), // Added Minesweeper
+  'minesweeper': () => import('../games/minesweeper'),
+  'tic-tac-toe': () => import('../games/tic-tac-toe'),
   // Add more games here
 };
 

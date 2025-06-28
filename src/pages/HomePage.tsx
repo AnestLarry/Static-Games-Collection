@@ -41,18 +41,19 @@ const HomePage: React.FC = () => {
           </div>
         </Link>
         
-        {/* Placeholder for another game card - you can duplicate and modify this structure */}
-        <div 
+        {/* Game Card for Tic-Tac-Toe */}
+        <Link 
+          to="/games/tic-tac-toe" 
           className="block bg-white rounded-xl shadow-2xl hover:shadow-green-400/50 transform hover:-translate-y-1 transition-all duration-300 overflow-hidden group"
         >
           <div className="p-6">
-            <h2 className="text-2xl font-bold mb-3 text-green-700 group-hover:text-teal-600 transition-colors">Coming Soon!</h2>
-            <p className="text-gray-700 mb-4">We're working on adding more exciting games. Stay tuned!</p>
-            <span className="inline-block bg-gray-300 text-gray-500 text-sm font-semibold px-4 py-2 rounded-full">
-              Stay Tuned
+            <h2 className="text-2xl font-bold mb-3 text-green-700 group-hover:text-teal-600 transition-colors">Tic-Tac-Toe</h2>
+            <p className="text-gray-700 mb-4">The classic game of X's and O's with customizable rules!</p>
+            <span className="inline-block bg-green-500 group-hover:bg-teal-500 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors">
+              Play Now
             </span>
           </div>
-        </div>
+        </Link>
         {/* Add more game cards here by duplicating the structure above */}
       </div>
     </div>
