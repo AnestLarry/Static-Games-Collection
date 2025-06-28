@@ -54,6 +54,18 @@ const HomePage: React.FC = () => {
             </span>
           </div>
         </Link>
+        <Link 
+          to="/games/go" 
+          className="block bg-white rounded-xl shadow-2xl hover:shadow-red-400/50 transform hover:-translate-y-1 transition-all duration-300 overflow-hidden group"
+        >
+          <div className="p-6">
+            <h2 className="text-2xl font-bold mb-3 text-red-700 group-hover:text-orange-600 transition-colors">Go Game</h2>
+            <p className="text-gray-700 mb-4">The ancient strategy board game. Surround territory to win!</p>
+            <span className="inline-block bg-red-500 group-hover:bg-orange-500 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors">
+              Play Now
+            </span>
+          </div>
+        </Link>
         {/* Add more game cards here by duplicating the structure above */}
       </div>
     </div>
