@@ -8,6 +8,7 @@ const gameComponents: Record<string, () => Promise<{ default: React.FC<GameProps
   'minesweeper': () => import('../games/minesweeper'),
   'tic-tac-toe': () => import('../games/tic-tac-toe'),
   'go': () => import('../games/go'),
+  'chinese-chess': () => import('../games/chinese-chess'),
   // Add more games here
 };
 

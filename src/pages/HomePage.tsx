@@ -66,6 +66,19 @@ const HomePage: React.FC = () => {
             </span>
           </div>
         </Link>
+        {/* Game Card for Chinese Chess */}
+        <Link 
+          to="/games/chinese-chess" 
+          className="block bg-white rounded-xl shadow-2xl hover:shadow-yellow-400/50 transform hover:-translate-y-1 transition-all duration-300 overflow-hidden group"
+        >
+          <div className="p-6">
+            <h2 className="text-2xl font-bold mb-3 text-yellow-700 group-hover:text-amber-600 transition-colors">Chinese Chess</h2>
+            <p className="text-gray-700 mb-4">The strategic game of generals and soldiers. Conquer your opponent's king!</p>
+            <span className="inline-block bg-yellow-500 group-hover:bg-amber-500 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors">
+              Play Now
+            </span>
+          </div>
+        </Link>
         {/* Add more game cards here by duplicating the structure above */}
       </div>
     </div>
