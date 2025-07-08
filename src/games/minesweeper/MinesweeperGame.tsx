@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { type GameState, initializeGame, revealCell, toggleFlag, type Cell, type GameSettings } from './game';
+import { type GameState, initializeGame, revealCell, toggleFlag, autoCalc, type Cell, type GameSettings } from './game';
 import MinesweeperResultModal from './MinesweeperResultModal';
 import MinesweeperSettings from './MinesweeperSettings';
 
@@ -82,6 +82,8 @@ const MinesweeperGame: React.FC = () => {
         return '';
       case 'flagged':
         return '🚩';
+      case 'auto_flagged':
+        return '🚩✨';
       case 'mine_revealed':
         return '💣';
       case 'wrong_flag':
@@ -95,7 +97,9 @@ const MinesweeperGame: React.FC = () => {
 
   const getCellStyle = (cell: Cell): string => {
     let baseStyle = 'w-8 h-8 md:w-10 md:h-10 border border-gray-400 flex items-center justify-center text-lg font-bold ';
-    if (cell.state === 'hidden' || cell.state === 'flagged') {
+    if (cell.state === 'auto_flagged') {
+      baseStyle += 'bg-yellow-200 animate-pulse';
+    } else if (cell.state === 'hidden' || cell.state === 'flagged') {
       const showHover = !settings.safeFirstClick || gameState.status !== 'not_started';
       baseStyle += showHover ? 'bg-gray-300 hover:bg-gray-400 cursor-pointer' : 'bg-gray-300';
     } else if (cell.state === 'revealed') {
@@ -126,11 +130,19 @@ const MinesweeperGame: React.FC = () => {
       
       <div className="mb-4 p-3 bg-white rounded-lg shadow-md flex justify-between items-center w-full max-w-md">
         <div className="text-xl font-semibold text-red-500">🚩 {gameState.minesRemaining}</div>
-        <button 
-          onClick={() => newGame()} 
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
-          {gameState.status === 'playing' ? '🙂' : gameState.status === 'won' ? '😎' : '😵'}
-        </button>
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => newGame()} 
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+            {gameState.status === 'playing' ? '🙂' : gameState.status === 'won' ? '😎' : '😵'}
+          </button>
+          <button
+            onClick={() => setGameState(autoCalc(gameState))}
+            disabled={gameState.status !== 'playing'}
+            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-400 transition-colors">
+            Auto
+          </button>
+        </div>
         <div className="text-xl font-semibold text-gray-700">
           ⏱️ {timeElapsed}s
         </div>
@@ -187,4 +199,3 @@ const MinesweeperGame: React.FC = () => {
 };
 
 export default MinesweeperGame;
-''

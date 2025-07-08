@@ -1,4 +1,4 @@
-export type CellState = 'hidden' | 'revealed' | 'flagged' | 'mine_revealed' | 'wrong_flag';
+export type CellState = 'hidden' | 'revealed' | 'flagged' | 'auto_flagged' | 'mine_revealed' | 'wrong_flag';
 
 export interface Cell {
   isMine: boolean;
@@ -207,10 +207,114 @@ export function countFlags(board: Board): number {
   return board.flat().filter(cell => cell.state === 'flagged').length;
 }
 
+// Helper to count hidden adjacent cells
+function countHiddenAdjacent(board: Board, row: number, col: number, rows: number, cols: number): number {
+  let count = 0;
+  for (let dr = -1; dr <= 1; dr++) {
+    for (let dc = -1; dc <= 1; dc++) {
+      if (dr === 0 && dc === 0) continue;
+      const nr = row + dr;
+      const nc = col + dc;
+      if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+        if (board[nr][nc].state === 'hidden') count++;
+      }
+    }
+  }
+  return count;
+}
+
+// Helper to count flagged adjacent cells
+function countFlaggedAdjacent(board: Board, row: number, col: number, rows: number, cols: number): number {
+  let count = 0;
+  for (let dr = -1; dr <= 1; dr++) {
+    for (let dc = -1; dc <= 1; dc++) {
+      if (dr === 0 && dc === 0) continue;
+      const nr = row + dr;
+      const nc = col + dc;
+      if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+        if (board[nr][nc].state === 'flagged' || board[nr][nc].state === 'auto_flagged') {
+          count++;
+        }
+      }
+    }
+  }
+  return count;
+}
+
 // Helper to check win condition (optional, if revealCell handles it)
 export function checkWinCondition(gameState: GameState): boolean {
   const { board, settings } = gameState;
   if (!board.length) return false;
   const revealedCount = board.flat().filter(cell => cell.state === 'revealed').length;
   return revealedCount === settings.rows * settings.cols - settings.mines;
+}
+
+// Auto-calculate safe moves with recursive flagging and revealing
+export function autoCalc(gameState: GameState): GameState {
+  const { board, settings } = gameState;
+  let newState = { ...gameState, board: JSON.parse(JSON.stringify(board)) };
+  let changesMade = false;
+
+  // First pass: Flag obvious mines
+  for (let r = 0; r < settings.rows; r++) {
+    for (let c = 0; c < settings.cols; c++) {
+      const cell = board[r][c];
+      if (cell.state === 'revealed' && cell.adjacentMines > 0) {
+        const hiddenCount = countHiddenAdjacent(board, r, c, settings.rows, settings.cols);
+        const flagCount = countFlaggedAdjacent(board, r, c, settings.rows, settings.cols);
+        if (hiddenCount + flagCount === cell.adjacentMines) {
+          for (let dr = -1; dr <= 1; dr++) {
+            for (let dc = -1; dc <= 1; dc++) {
+              if (dr === 0 && dc === 0) continue;
+              const nr = r + dr;
+              const nc = c + dc;
+              if (nr >= 0 && nr < settings.rows && nc >= 0 && nc < settings.cols) {
+                const neighbor = newState.board[nr][nc];
+                if (neighbor.state === 'hidden') {
+                  newState.board[nr][nc].state = 'auto_flagged'; // Visual feedback
+                  newState = toggleFlag(newState, nr, nc);
+                  changesMade = true;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Second pass: Reveal safe cells
+  for (let r = 0; r < settings.rows; r++) {
+    for (let c = 0; c < settings.cols; c++) {
+      const cell = newState.board[r][c];
+      if (cell.state === 'revealed' && cell.adjacentMines > 0) {
+        const flagCount = countFlaggedAdjacent(newState.board, r, c, settings.rows, settings.cols);
+        const hiddenCount = countHiddenAdjacent(newState.board, r, c, settings.rows, settings.cols);
+        
+        if (flagCount === cell.adjacentMines && hiddenCount > 0) {
+          for (let dr = -1; dr <= 1; dr++) {
+            for (let dc = -1; dc <= 1; dc++) {
+              if (dr === 0 && dc === 0) continue;
+              const nr = r + dr;
+              const nc = c + dc;
+              if (nr >= 0 && nr < settings.rows && nc >= 0 && nc < settings.cols) {
+                const neighbor = newState.board[nr][nc];
+                if (neighbor.state === 'hidden') {
+                  newState = revealCell(newState, nr, nc);
+                  changesMade = true;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Recursively call if changes were made
+  if (changesMade) {
+    newState = autoCalc(newState);
+  }
+
+  return newState;
 }
