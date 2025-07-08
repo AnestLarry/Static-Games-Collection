@@ -1,5 +1,3 @@
-// Minesweeper Game Logic
-
 export type CellState = 'hidden' | 'revealed' | 'flagged' | 'mine_revealed' | 'wrong_flag';
 
 export interface Cell {
@@ -20,7 +18,7 @@ export interface GameSettings {
 
 export interface GameState {
   board: Board;
-  status: 'playing' | 'won' | 'lost';
+  status: 'playing' | 'won' | 'lost' | 'not_started';
   minesRemaining: number;
   cellsRevealed: number;
   settings: GameSettings;
@@ -29,7 +27,7 @@ export interface GameState {
 }
 
 // Function to initialize the game board
-export function createBoard(settings: GameSettings): Board {
+export function createBoard(settings: GameSettings, firstClick: { row: number, col: number } | null = null): Board {
   const { rows, cols, mines } = settings;
   const board: Board = Array(rows)
     .fill(null)
@@ -45,12 +43,12 @@ export function createBoard(settings: GameSettings): Board {
         }))
     );
 
-  // Place mines randomly
+  // Place mines randomly, avoiding the first click location
   let minesPlaced = 0;
   while (minesPlaced < mines) {
     const r = Math.floor(Math.random() * rows);
     const c = Math.floor(Math.random() * cols);
-    if (!board[r][c].isMine) {
+    if (!board[r][c].isMine && !(firstClick && firstClick.row === r && firstClick.col === c)) {
       board[r][c].isMine = true;
       minesPlaced++;
     }
@@ -79,46 +77,58 @@ export function createBoard(settings: GameSettings): Board {
 
 // Function to initialize game state
 export function initializeGame(settings: GameSettings): GameState {
-  const board = createBoard(settings);
   return {
-    board,
-    status: 'playing',
+    board: [], // Board is created on first click
+    status: 'not_started',
     minesRemaining: settings.mines,
     cellsRevealed: 0,
     settings,
-    startTime: null, // Initialize startTime to null
+    startTime: null,
     endTime: null,
   };
 }
 
 // Function to reveal a cell
 export function revealCell(gameState: GameState, row: number, col: number): GameState {
-  const { board, settings } = gameState;
+  const { board, settings, status } = gameState;
+
+  // If the game hasn't started, create the board on the first click
+  if (status === 'not_started') {
+    const newBoard = createBoard(settings, { row, col });
+    return { 
+      ...gameState, 
+      board: newBoard, 
+      status: 'playing',
+      startTime: Date.now()
+    };
+  }
+  
   const cell = board[row][col];
 
-  if (cell.state !== 'hidden' || gameState.status !== 'playing') {
-    return gameState;
+  if (cell.state !== 'hidden' || status !== 'playing') {
+    return { ...gameState, board, status };
   }
 
-  let newGameState = { ...gameState, board: JSON.parse(JSON.stringify(board)) as Board }; // Deep copy board
-  
-  // Start timer on first click
-  if (newGameState.startTime === null) {
-    newGameState.startTime = Date.now();
-  }
+  let newGameState: GameState = { 
+    ...gameState, 
+    board: JSON.parse(JSON.stringify(board)) as Board, 
+    status: 'playing' as const
+  }; // Deep copy board
 
   const newCell = newGameState.board[row][col];
 
   if (newCell.isMine) {
     newCell.state = 'mine_revealed';
-    newGameState.status = 'lost';
-    newGameState.endTime = Date.now();
-    // Reveal all mines
-    newGameState.board.forEach(r => r.forEach(c => {
-      if (c.isMine && c.state !== 'flagged') c.state = 'mine_revealed';
-      if (!c.isMine && c.state === 'flagged') c.state = 'wrong_flag';
-    }));
-    return newGameState;
+    return {
+      ...newGameState,
+      status: 'lost',
+      endTime: Date.now(),
+      board: newGameState.board.map(r => r.map(c => {
+        if (c.isMine && c.state !== 'flagged') return { ...c, state: 'mine_revealed' };
+        if (!c.isMine && c.state === 'flagged') return { ...c, state: 'wrong_flag' };
+        return c;
+      }))
+    };
   }
 
   newCell.state = 'revealed';
@@ -132,9 +142,8 @@ export function revealCell(gameState: GameState, row: number, col: number): Game
         const nr = row + dr;
         const nc = col + dc;
         if (nr >= 0 && nr < settings.rows && nc >= 0 && nc < settings.cols) {
-          // Recursively reveal, but ensure the state is updated from the result of the recursive call
           const tempState = revealCell(newGameState, nr, nc);
-          newGameState = { ...tempState }; // Update game state with changes from recursive calls
+          newGameState = { ...tempState };
         }
       }
     }
@@ -142,13 +151,16 @@ export function revealCell(gameState: GameState, row: number, col: number): Game
 
   // Check for win condition
   if (newGameState.cellsRevealed === settings.rows * settings.cols - settings.mines) {
-    newGameState.status = 'won';
-    newGameState.endTime = Date.now();
-    // Auto-flag remaining mines
-    newGameState.board.forEach(r => r.forEach(c => {
-      if (c.isMine && c.state === 'hidden') c.state = 'flagged';
-    }));
-    newGameState.minesRemaining = 0;
+    return {
+      ...newGameState,
+      status: 'won',
+      endTime: Date.now(),
+      minesRemaining: 0,
+      board: newGameState.board.map(r => r.map(c => {
+        if (c.isMine && c.state === 'hidden') return { ...c, state: 'flagged' };
+        return c;
+      }))
+    };
   }
 
   return newGameState;
@@ -156,10 +168,15 @@ export function revealCell(gameState: GameState, row: number, col: number): Game
 
 // Function to toggle a flag on a cell
 export function toggleFlag(gameState: GameState, row: number, col: number): GameState {
-  const { board } = gameState;
+  const { board, status } = gameState;
+
+  if (status !== 'playing' || !board.length) {
+    return gameState;
+  }
+  
   const cell = board[row][col];
 
-  if (cell.state === 'revealed' || gameState.status !== 'playing') {
+  if (cell.state === 'revealed') {
     return gameState;
   }
 
@@ -183,3 +200,12 @@ export function toggleFlag(gameState: GameState, row: number, col: number): Game
 export function countFlags(board: Board): number {
   return board.flat().filter(cell => cell.state === 'flagged').length;
 }
+
+// Helper to check win condition (optional, if revealCell handles it)
+export function checkWinCondition(gameState: GameState): boolean {
+  const { board, settings } = gameState;
+  if (!board.length) return false;
+  const revealedCount = board.flat().filter(cell => cell.state === 'revealed').length;
+  return revealedCount === settings.rows * settings.cols - settings.mines;
+}
+''

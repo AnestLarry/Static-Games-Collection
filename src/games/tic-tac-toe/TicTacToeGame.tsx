@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import TicTacToeBoard from './TicTacToeBoard';
 import TicTacToeSettings from './TicTacToeSettings';
@@ -13,9 +13,7 @@ import {
   type GameStatus,
 } from './TicTacToeLogic';
 
-interface GameProps {}
-
-const TicTacToeGame: React.FC<GameProps> = () => {
+const TicTacToeGame: React.FC = () => {
   const { t } = useTranslation();
   const [boardSize, setBoardSize] = useState<number>(3);
   const [winCondition, setWinCondition] = useState<number>(3);
@@ -29,9 +27,18 @@ const TicTacToeGame: React.FC<GameProps> = () => {
   const [playerXMoves, setPlayerXMoves] = useState<number>(0);
   const [playerOMoves, setPlayerOMoves] = useState<number>(0);
 
+  const resetGame = useCallback(() => {
+    setBoard(initializeBoard(boardSize));
+    setCurrentPlayer('X');
+    setGameStatus('playing');
+    setShowResultModal(false);
+    setPlayerXMoves(0);
+    setPlayerOMoves(0);
+  }, [boardSize]);
+
   useEffect(() => {
     resetGame();
-  }, [boardSize, winCondition, piecesPerPlayer]);
+  }, [boardSize, winCondition, piecesPerPlayer, resetGame]);
 
   const handleCellClick = (row: number, col: number) => {
     if (gameStatus !== 'playing' || board[row][col] !== null) {
@@ -68,14 +75,6 @@ const TicTacToeGame: React.FC<GameProps> = () => {
     }
   };
 
-  const resetGame = () => {
-    setBoard(initializeBoard(boardSize));
-    setCurrentPlayer('X');
-    setGameStatus('playing');
-    setShowResultModal(false);
-    setPlayerXMoves(0);
-    setPlayerOMoves(0);
-  };
 
   const applySettings = (newBoardSize: number, newWinCondition: number, newPiecesPerPlayer: number | null) => {
     setBoardSize(newBoardSize);

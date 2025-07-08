@@ -65,7 +65,7 @@ const MinesweeperGame: React.FC = () => {
   }, [gameState.status, gameState.startTime]);
 
   const handleCellClick = (row: number, col: number) => {
-    if (gameState.status !== 'playing') return;
+    if (gameState.status === 'lost' || gameState.status === 'won') return;
     setGameState(prev => revealCell(prev, row, col));
   };
 
@@ -114,7 +114,7 @@ const MinesweeperGame: React.FC = () => {
     return <MinesweeperSettings 
       currentSettings={settings} 
       onStartGame={newGame} 
-      onCancel={gameState.startTime !== null ? () => setShowSettings(false) : undefined}
+      onCancel={gameState.status !== 'not_started' ? () => setShowSettings(false) : undefined}
       />;
   }
 
@@ -142,16 +142,26 @@ const MinesweeperGame: React.FC = () => {
         }}
         onContextMenu={(e) => e.preventDefault()}
       >
-        {gameState.board.map((row, rIndex) =>
-          row.map((cell, cIndex) => (
+        {gameState.board.length > 0 ? (
+          gameState.board.map((row, rIndex) =>
+            row.map((cell, cIndex) => (
+              <div
+                key={`${rIndex}-${cIndex}`}
+                className={getCellStyle(cell)}
+                onClick={() => handleCellClick(rIndex, cIndex)}
+                onContextMenu={(e) => handleCellRightClick(e, rIndex, cIndex)}
+              >
+                {getCellDisplay(cell)}
+              </div>
+            ))
+          )
+        ) : (
+          Array.from({ length: settings.rows * settings.cols }).map((_, index) => (
             <div
-              key={`${rIndex}-${cIndex}`}
-              className={getCellStyle(cell)}
-              onClick={() => handleCellClick(rIndex, cIndex)}
-              onContextMenu={(e) => handleCellRightClick(e, rIndex, cIndex)}
-            >
-              {getCellDisplay(cell)}
-            </div>
+              key={index}
+              className="w-8 h-8 md:w-10 md:h-10 border border-gray-400 bg-gray-300 hover:bg-gray-400 cursor-pointer"
+              onClick={() => handleCellClick(Math.floor(index / settings.cols), index % settings.cols)}
+            />
           ))
         )}
       </div>
@@ -175,3 +185,4 @@ const MinesweeperGame: React.FC = () => {
 };
 
 export default MinesweeperGame;
+''
