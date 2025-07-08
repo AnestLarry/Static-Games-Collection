@@ -48,7 +48,8 @@
       "start_game": "开始游戏",
       "cancel": "取消",
       "grid_size_error": "网格大小必须在 {{MIN_ROWS_COLS}}x{{MIN_ROWS_COLS}} 和 {{MAX_ROWS}}x{{MAX_COLS}} 之间。",
-      "mines_error": "地雷数量必须在 {{MIN_MINES}} 和 {{max_mines}} 之间。"
+      "mines_error": "地雷数量必须在 {{MIN_MINES}} 和 {{max_mines}} 之间。",
+      "safe_first_click": "安全首点击"
     }
   },
   "tic-tac-toe": {

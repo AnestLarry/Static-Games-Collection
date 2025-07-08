@@ -13,6 +13,7 @@ const MinesweeperSettings: React.FC<MinesweeperSettingsProps> = ({ currentSettin
   const [rows, setRows] = useState(currentSettings.rows);
   const [cols, setCols] = useState(currentSettings.cols);
   const [mines, setMines] = useState(currentSettings.mines);
+  const [safeFirstClick, setSafeFirstClick] = useState(currentSettings.safeFirstClick);
   const [error, setError] = useState<string | null>(null);
 
   const MAX_ROWS = 30;
@@ -34,7 +35,7 @@ const MinesweeperSettings: React.FC<MinesweeperSettingsProps> = ({ currentSettin
       return;
     }
     setError(null);
-    onStartGame({ rows: numRows, cols: numCols, mines: numMines });
+    onStartGame({ rows: numRows, cols: numCols, mines: numMines, safeFirstClick });
   };
 
   return (
@@ -80,6 +81,18 @@ const MinesweeperSettings: React.FC<MinesweeperSettingsProps> = ({ currentSettin
               max={rows * cols > 0 ? rows * cols -1 : 1}
               className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
             />
+          </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="safeFirstClick"
+              checked={safeFirstClick}
+              onChange={(e) => setSafeFirstClick(e.target.checked)}
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label htmlFor="safeFirstClick" className="ml-2 block text-sm text-gray-700">
+              {t('minesweeper.settings.safe_first_click')}
+            </label>
           </div>
         </div>
 

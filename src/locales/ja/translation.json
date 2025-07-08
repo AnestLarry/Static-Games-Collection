@@ -48,7 +48,8 @@
       "start_game": "ゲームを開始",
       "cancel": "キャンセル",
       "grid_size_error": "グリッドサイズは {{MIN_ROWS_COLS}}x{{MIN_ROWS_COLS}} から {{MAX_ROWS}}x{{MAX_COLS}} の間でなければなりません。",
-      "mines_error": "地雷の数は {{MIN_MINES}} から {{max_mines}} の間でなければなりません。"
+      "mines_error": "地雷の数は {{MIN_MINES}} から {{max_mines}} の間でなければなりません。",
+      "safe_first_click": "安全な最初のクリック"
     }
   },
   "tic-tac-toe": {

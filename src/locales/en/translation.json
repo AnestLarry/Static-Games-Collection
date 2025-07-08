@@ -48,7 +48,8 @@
       "start_game": "Start Game",
       "cancel": "Cancel",
       "grid_size_error": "Grid size must be between {{MIN_ROWS_COLS}}x{{MIN_ROWS_COLS}} and {{MAX_ROWS}}x{{MAX_COLS}}.",
-      "mines_error": "Number of mines must be between {{MIN_MINES}} and {{max_mines}}."
+      "mines_error": "Number of mines must be between {{MIN_MINES}} and {{max_mines}}.",
+      "safe_first_click": "Safe First Click"
     }
   },
   "tic-tac-toe": {

@@ -14,6 +14,7 @@ export interface GameSettings {
   rows: number;
   cols: number;
   mines: number;
+  safeFirstClick: boolean;
 }
 
 export interface GameState {
@@ -92,15 +93,20 @@ export function initializeGame(settings: GameSettings): GameState {
 export function revealCell(gameState: GameState, row: number, col: number): GameState {
   const { board, settings, status } = gameState;
 
-  // If the game hasn't started, create the board on the first click
+  // If the game hasn't started, create the board and reveal first cell
   if (status === 'not_started') {
     const newBoard = createBoard(settings, { row, col });
-    return { 
+    const newGameState: GameState = { 
       ...gameState, 
       board: newBoard, 
       status: 'playing',
-      startTime: Date.now()
+      startTime: Date.now(),
+      cellsRevealed: 1,
+      endTime: null
     };
+    // Reveal the clicked cell
+    newGameState.board[row][col].state = 'revealed';
+    return newGameState;
   }
   
   const cell = board[row][col];
@@ -208,4 +214,3 @@ export function checkWinCondition(gameState: GameState): boolean {
   const revealedCount = board.flat().filter(cell => cell.state === 'revealed').length;
   return revealedCount === settings.rows * settings.cols - settings.mines;
 }
-''

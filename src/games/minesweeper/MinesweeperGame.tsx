@@ -8,6 +8,7 @@ const DEFAULT_SETTINGS: GameSettings = {
   rows: 10,
   cols: 10,
   mines: 15,
+  safeFirstClick: true,
 };
 
 const MinesweeperGame: React.FC = () => {
@@ -95,7 +96,8 @@ const MinesweeperGame: React.FC = () => {
   const getCellStyle = (cell: Cell): string => {
     let baseStyle = 'w-8 h-8 md:w-10 md:h-10 border border-gray-400 flex items-center justify-center text-lg font-bold ';
     if (cell.state === 'hidden' || cell.state === 'flagged') {
-      baseStyle += 'bg-gray-300 hover:bg-gray-400 cursor-pointer';
+      const showHover = !settings.safeFirstClick || gameState.status !== 'not_started';
+      baseStyle += showHover ? 'bg-gray-300 hover:bg-gray-400 cursor-pointer' : 'bg-gray-300';
     } else if (cell.state === 'revealed') {
       baseStyle += 'bg-gray-200 ';
       if (cell.adjacentMines === 1) baseStyle += 'text-blue-500';
@@ -159,7 +161,7 @@ const MinesweeperGame: React.FC = () => {
           Array.from({ length: settings.rows * settings.cols }).map((_, index) => (
             <div
               key={index}
-              className="w-8 h-8 md:w-10 md:h-10 border border-gray-400 bg-gray-300 hover:bg-gray-400 cursor-pointer"
+              className={`w-8 h-8 md:w-10 md:h-10 border border-gray-400 bg-gray-300 ${(!settings.safeFirstClick || gameState.status !== 'not_started') ? 'hover:bg-gray-400 cursor-pointer' : ''}`}
               onClick={() => handleCellClick(Math.floor(index / settings.cols), index % settings.cols)}
             />
           ))
