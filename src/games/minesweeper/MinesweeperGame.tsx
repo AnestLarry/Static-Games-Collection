@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { type GameState, initializeGame, revealCell, toggleFlag, type Cell, type GameSettings } from './game';
 import MinesweeperResultModal from './MinesweeperResultModal';
 import MinesweeperSettings from './MinesweeperSettings';
@@ -10,9 +11,10 @@ const DEFAULT_SETTINGS: GameSettings = {
 };
 
 const MinesweeperGame: React.FC = () => {
+  const { t } = useTranslation();
   const [settings, setSettings] = useState<GameSettings>(DEFAULT_SETTINGS);
   const [gameState, setGameState] = useState<GameState>(() => initializeGame(settings));
-  const [showSettings, setShowSettings] = useState(true); // Show settings on initial load
+  const [showSettings, setShowSettings] = useState(true);
   const [showResultModal, setShowResultModal] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
 
@@ -21,35 +23,28 @@ const MinesweeperGame: React.FC = () => {
     if (newSettings) setSettings(newSettings);
     setGameState(initializeGame(currentSettings));
     setShowResultModal(false);
-    setShowSettings(false); // Hide settings after starting a game
+    setShowSettings(false);
   }, [settings]);
 
   useEffect(() => {
     if (gameState.status === 'won' || gameState.status === 'lost') {
       setShowResultModal(true);
     }
-    // Reset timer when game status changes (e.g. new game)
     if (gameState.status === 'playing') {
-      // If startTime is null, it means the first click hasn't happened yet.
-      // Timer will start via the interval effect once startTime is set.
       if (gameState.startTime === null) {
         setTimeElapsed(0);
       } else {
-        // If a game is ongoing and startTime is set, calculate elapsed time
-        // This handles cases like resuming a paused game if we add such a feature
-        // For now, it primarily ensures timer continues if status was briefly not 'playing'
         setTimeElapsed(Math.floor((Date.now() - gameState.startTime) / 1000));
       }
     } else if (gameState.status === 'won' || gameState.status === 'lost') {
       if (gameState.startTime && gameState.endTime) {
         setTimeElapsed(Math.floor((gameState.endTime - gameState.startTime) / 1000));
       } else if (gameState.startTime) {
-        // If game ended but endTime wasn't set (should not happen with current logic but good for robustness)
         setTimeElapsed(Math.floor((Date.now() - gameState.startTime) / 1000));
       } else {
-        setTimeElapsed(0); // Game ended without starting
+        setTimeElapsed(0);
       }
-    } else { // e.g. 'initial' or other states
+    } else {
         setTimeElapsed(0);
     }
   }, [gameState.status, gameState.startTime, gameState.endTime]);
@@ -57,12 +52,9 @@ const MinesweeperGame: React.FC = () => {
   useEffect(() => {
     let timerInterval: ReturnType<typeof setInterval>;
     if (gameState.status === 'playing' && gameState.startTime !== null) {
-      // Ensure we calculate from the actual start time if the component re-renders
-      // or if the timer was paused.
       setTimeElapsed(Math.floor((Date.now() - gameState.startTime) / 1000)); 
       timerInterval = setInterval(() => {
-        // Update based on current time and start time to avoid drift
-        if(gameState.startTime) { // Double check startTime still exists
+        if(gameState.startTime) {
             setTimeElapsed(Math.floor((Date.now() - gameState.startTime) / 1000));
         }
       }, 1000);
@@ -122,13 +114,13 @@ const MinesweeperGame: React.FC = () => {
     return <MinesweeperSettings 
       currentSettings={settings} 
       onStartGame={newGame} 
-      onCancel={gameState.startTime !== null ? () => setShowSettings(false) : undefined} // Allow cancel only if a game has been started before
+      onCancel={gameState.startTime !== null ? () => setShowSettings(false) : undefined}
       />;
   }
 
   return (
     <div className="flex flex-col items-center p-4 bg-gray-100 min-h-screen">
-      <h1 className="text-4xl font-bold text-gray-700 mb-6">Minesweeper</h1>
+      <h1 className="text-4xl font-bold text-gray-700 mb-6">{t('games.minesweeper')}</h1>
       
       <div className="mb-4 p-3 bg-white rounded-lg shadow-md flex justify-between items-center w-full max-w-md">
         <div className="text-xl font-semibold text-red-500">🚩 {gameState.minesRemaining}</div>
@@ -148,7 +140,7 @@ const MinesweeperGame: React.FC = () => {
           gridTemplateColumns: `repeat(${settings.cols}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${settings.rows}, minmax(0, 1fr))`
         }}
-        onContextMenu={(e) => e.preventDefault()} // Prevent context menu on the grid itself
+        onContextMenu={(e) => e.preventDefault()}
       >
         {gameState.board.map((row, rIndex) =>
           row.map((cell, cIndex) => (
@@ -167,12 +159,12 @@ const MinesweeperGame: React.FC = () => {
       <button 
         onClick={() => setShowSettings(true)} 
         className="mt-6 px-6 py-3 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition-colors duration-300 text-lg font-semibold">
-        Change Settings
+        {t('minesweeper.change_settings')}
       </button>
 
       {showResultModal && (
         <MinesweeperResultModal 
-          status={gameState.status as 'won' | 'lost'} // Type assertion
+          status={gameState.status as 'won' | 'lost'}
           time={timeElapsed}
           onRestart={() => newGame(settings)} 
           onClose={() => setShowResultModal(false)}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import GameBoard from './GameBoard';
 import GameControls from './GameControls';
 import ResultModal from './ResultModal';
@@ -10,6 +11,7 @@ interface Game2048Props {
 }
 
 const Game2048: React.FC<Game2048Props> = ({ navigate }) => {
+  const { t } = useTranslation();
   const {
     grid,
     score,
@@ -18,7 +20,7 @@ const Game2048: React.FC<Game2048Props> = ({ navigate }) => {
     move,
     resetGame,
     GRID_SIZE,
-    mergedCells // Get mergedCells from useGameState
+    mergedCells
   } = useGameState();
   const [showResultModal, setShowResultModal] = useState(false);
 
@@ -33,12 +35,10 @@ const Game2048: React.FC<Game2048Props> = ({ navigate }) => {
   };
 
   const handleShareGame = () => {
-    // Logic to share game state (e.g., copy to clipboard or use Web Share API)
-    // This can reuse parts of the ResultModal's share logic if needed, or be simpler
-    const gameData = `2048 Game State:\nScore: ${score}\nGrid:\n${grid.map(row => row.join('\t')).join('\n')}`;
+    const gameData = `${t('2048.share_message')}:\n${t('2048.score')}: ${score}\n${t('2048.grid')}:\n${grid.map(row => row.join('\t')).join('\n')}`;
     navigator.clipboard.writeText(gameData)
-      .then(() => alert('Game state copied to clipboard!'))
-      .catch(() => alert('Could not copy game state.'));
+      .then(() => alert(t('2048.share_success')))
+      .catch(() => alert(t('2048.share_error')));
   };
 
   return (
@@ -50,7 +50,7 @@ const Game2048: React.FC<Game2048Props> = ({ navigate }) => {
           score={score}
           bestScore={bestScore}
           GRID_SIZE={GRID_SIZE}
-          mergedCells={mergedCells} // Pass mergedCells to GameBoard
+          mergedCells={mergedCells}
         />
         
         {showResultModal && (gameStatus === 'won' || gameStatus === 'lost') && (
@@ -59,7 +59,7 @@ const Game2048: React.FC<Game2048Props> = ({ navigate }) => {
             score={score}
             onRestart={() => {
               resetGame();
-              setShowResultModal(false); // Ensure modal closes on restart
+              setShowResultModal(false);
             }}
             onClose={handleCloseResultModal}
             grid={grid}
@@ -69,24 +69,22 @@ const Game2048: React.FC<Game2048Props> = ({ navigate }) => {
         {!showResultModal && (gameStatus === 'won' || gameStatus === 'lost') && (
           <div className="mt-8 p-6 bg-white rounded-lg shadow-lg text-center">
             <h3 className="text-2xl font-semibold mb-4 text-gray-700">
-              Game Over - Score: {score}
+              {t('2048.game_over')} - {t('2048.score')}: {score}
             </h3>
             <div className="flex justify-center space-x-4">
               <button 
                 className="px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300 text-lg font-semibold"
                 onClick={() => {
                   resetGame();
-                  // Optionally, if you want the modal to reappear for a new game over immediately
-                  // if (newGameStatus === 'lost' || newGameStatus === 'won') { setShowResultModal(true); }
                 }}
               >
-                New Game
+                {t('2048.new_game')}
               </button>
               <button 
                 className="px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors duration-300 text-lg font-semibold"
                 onClick={handleShareGame}
               >
-                Share Game
+                {t('2048.share_game')}
               </button>
             </div>
           </div>

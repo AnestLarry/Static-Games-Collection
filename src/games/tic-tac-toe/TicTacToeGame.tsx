@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import TicTacToeBoard from './TicTacToeBoard';
 import TicTacToeSettings from './TicTacToeSettings';
 import TicTacToeResultModal from './TicTacToeResultModal';
@@ -12,11 +13,10 @@ import {
   type GameStatus,
 } from './TicTacToeLogic';
 
-interface GameProps {
-  // navigate: (path: string) => void; // Not currently used within TicTacToeGame
-}
+interface GameProps {}
 
 const TicTacToeGame: React.FC<GameProps> = () => {
+  const { t } = useTranslation();
   const [boardSize, setBoardSize] = useState<number>(3);
   const [winCondition, setWinCondition] = useState<number>(3);
   const [piecesPerPlayer, setPiecesPerPlayer] = useState<number | null>(null);
@@ -86,9 +86,9 @@ const TicTacToeGame: React.FC<GameProps> = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4 bg-gray-800 rounded-lg shadow-lg">
-      <h1 className="text-4xl font-bold text-white mb-6">Tic-Tac-Toe</h1>
+      <h1 className="text-4xl font-bold text-white mb-6">{t('games.tic-tac-toe')}</h1>
       <div className="text-xl text-white mb-4">
-        {gameStatus === 'playing' ? `Current Player: ${currentPlayer}` : ''}
+        {gameStatus === 'playing' ? `${t('tic-tac-toe.current_player')}: ${currentPlayer}` : ''}
       </div>
 
       <TicTacToeBoard board={board} onCellClick={handleCellClick} />
@@ -98,13 +98,13 @@ const TicTacToeGame: React.FC<GameProps> = () => {
           onClick={resetGame}
           className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
         >
-          Reset Game
+          {t('tic-tac-toe.reset_game')}
         </button>
         <button
           onClick={() => setShowSettings(true)}
           className="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition-colors duration-300"
         >
-          Settings
+          {t('tic-tac-toe.settings')}
         </button>
       </div>
 

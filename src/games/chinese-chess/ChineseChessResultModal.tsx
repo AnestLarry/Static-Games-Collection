@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ChineseChessResultModalProps {
   isOpen: boolean;
@@ -9,6 +10,8 @@ interface ChineseChessResultModalProps {
 }
 
 const ChineseChessResultModal: React.FC<ChineseChessResultModalProps> = ({ isOpen, onClose, gameResult, onPlayAgain }) => {
+  const { t } = useTranslation();
+
   if (!isOpen) return null;
 
   let title = '';
@@ -16,17 +19,17 @@ const ChineseChessResultModal: React.FC<ChineseChessResultModalProps> = ({ isOpe
   let message = '';
 
   if (gameResult === 'red-wins') {
-    title = 'Red Wins!';
+    title = t('chinese_chess.red_wins');
     icon = '🏆'; // Trophy icon
-    message = 'Congratulations to the Red player!';
+    message = t('chinese_chess.congratulations_red');
   } else if (gameResult === 'black-wins') {
-    title = 'Black Wins!';
+    title = t('chinese_chess.black_wins');
     icon = '🏆'; // Trophy icon
-    message = 'Congratulations to the Black player!';
+    message = t('chinese_chess.congratulations_black');
   } else if (gameResult === 'draw') {
-    title = "It's a Draw!";
+    title = t('chinese_chess.draw');
     icon = '🤝'; // Handshake icon
-    message = 'Well played by both sides!';
+    message = t('chinese_chess.well_played_by_both_sides');
   }
 
   return (
@@ -42,13 +45,13 @@ const ChineseChessResultModal: React.FC<ChineseChessResultModalProps> = ({ isOpe
             onClick={onPlayAgain}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
-            Play Again
+            {t('chinese_chess.play_again')}
           </button>
           <button
             onClick={onClose}
             className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
           >
-            Close
+            {t('chinese_chess.close')}
           </button>
         </div>
       </div>

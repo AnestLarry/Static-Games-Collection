@@ -1,0 +1,104 @@
+{
+  "title": "Static Games",
+  "description": "A collection of classic games built with React.",
+  "games": {
+    "2048": "2048",
+    "minesweeper": "Minesweeper",
+    "tic-tac-toe": "Tic Tac Toe",
+    "go": "Go",
+    "chinese-chess": "Chinese Chess",
+    "2048_description": "A highly addictive number puzzle. Combine tiles to reach the 2048 tile!",
+    "minesweeper_description": "The classic logic puzzle. Clear the board without detonating any mines!",
+    "tic-tac-toe_description": "The classic game of X's and O's with customizable rules!",
+    "go_description": "The ancient strategy board game. Surround territory to win!",
+    "chinese-chess_description": "The strategic game of generals and soldiers. Conquer your opponent's king!"
+  },
+  "language": "Language",
+  "home": "Home",
+  "play_now": "Play Now",
+  "sidebar": {
+    "portal": "Your Portal to Fun",
+    "more_games": "More Games (Soon)"
+  },
+  "game_page": {
+    "loading": "Loading Game Awesomeness...",
+    "load_error": "Oops! We couldn't load the game. Please try again or select another game.",
+    "not_found": "Sorry, the game you're looking for doesn't exist.",
+    "error_title": "Something Went Wrong",
+    "back_button": "Back to Game Selection",
+    "render_error": "Game component could not be rendered."
+  },
+  "2048": {
+    "share_message": "2048 Game State",
+    "score": "Score",
+    "grid": "Grid",
+    "share_success": "Game state copied to clipboard!",
+    "share_error": "Could not copy game state.",
+    "game_over": "Game Over",
+    "new_game": "New Game",
+    "share_game": "Share Game"
+  },
+  "minesweeper": {
+    "change_settings": "Change Settings",
+    "settings": {
+      "title": "Minesweeper Settings",
+      "rows": "Rows ({{MIN_ROWS_COLS}}-{{MAX_ROWS}})",
+      "cols": "Columns ({{MIN_ROWS_COLS}}-{{MAX_COLS}})",
+      "mines": "Mines ({{MIN_MINES}}-{{max_mines}})",
+      "start_game": "Start Game",
+      "cancel": "Cancel",
+      "grid_size_error": "Grid size must be between {{MIN_ROWS_COLS}}x{{MIN_ROWS_COLS}} and {{MAX_ROWS}}x{{MAX_COLS}}.",
+      "mines_error": "Number of mines must be between {{MIN_MINES}} and {{max_mines}}."
+    }
+  },
+  "tic-tac-toe": {
+      "current_player": "Current Player",
+      "reset_game": "Reset Game",
+      "settings": "Settings"
+    },
+    "go": {
+      "current_player": "Current Player",
+      "black_captured": "Black Captured",
+      "white_captured": "White Captured",
+      "pass": "Pass",
+      "settings_button": "Settings",
+      "black": "Black",
+      "white": "White",
+      "settings_modal": {
+        "title": "Go Settings",
+        "board_size": "Board Size",
+        "komi": "Komi",
+        "handicap": "Handicap",
+        "start_new_game": "Start New Game",
+        "cancel": "Cancel"
+      }
+    },
+    "chinese_chess": {
+      "red": "Red",
+      "black": "Black",
+      "current_turn": "Current Turn: {{player}}",
+      "red_wins": "Red Wins!",
+      "black_wins": "Black Wins!",
+      "draw": "It's a Draw!",
+      "reset_game": "Reset Game",
+      "undo": "Undo",
+      "redo": "Redo",
+      "settings_button": "Settings",
+      "hide_history": "Hide History",
+      "show_history": "Show History",
+      "exit_focus_mode": "Exit Focus Mode",
+      "focus_mode": "Focus Mode",
+      "move_history": "Move History",
+      "play_again": "Play Again",
+      "close": "Close",
+      "settings_modal": {
+        "game_settings": "Game Settings",
+        "settings_content_coming_soon": "Settings content coming soon...",
+        "close": "Close"
+      },
+      "press_esc_to_exit_focus_mode": "Press ESC to exit Focus Mode",
+      "congratulations_red": "Congratulations to the Red player!",
+      "congratulations_black": "Congratulations to the Black player!",
+      "well_played_by_both_sides": "Well played by both sides!"
+    }
+}

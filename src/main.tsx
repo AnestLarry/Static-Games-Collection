@@ -5,6 +5,7 @@ import './index.css';
 import App from './App.tsx';
 import HomePage from './pages/HomePage.tsx';
 import GamePage from './pages/GamePage.tsx';
+import './i18n';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

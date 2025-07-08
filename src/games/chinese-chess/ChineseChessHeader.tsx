@@ -1,5 +1,6 @@
 import React from 'react';
 import type { GameStatus } from './useChineseChessState';
+import { useTranslation } from 'react-i18next';
 
 interface ChineseChessHeaderProps {
   currentPlayer: 'red' | 'black';
@@ -7,16 +8,18 @@ interface ChineseChessHeaderProps {
 }
 
 const ChineseChessHeader: React.FC<ChineseChessHeaderProps> = ({ currentPlayer, gameStatus }) => {
+  const { t } = useTranslation();
+
   const statusMessage = () => {
     switch (gameStatus) {
       case 'playing':
-        return `Current Turn: ${currentPlayer === 'red' ? 'Red' : 'Black'}`;
+        return t('chinese_chess.current_turn', { player: t(`chinese_chess.${currentPlayer}`) });
       case 'red-wins':
-        return 'Red Wins!';
+        return t('chinese_chess.red_wins');
       case 'black-wins':
-        return 'Black Wins!';
+        return t('chinese_chess.black_wins');
       case 'draw':
-        return 'It\'s a Draw!';
+        return t('chinese_chess.draw');
       default:
         return '';
     }

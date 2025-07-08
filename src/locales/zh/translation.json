@@ -1,0 +1,104 @@
+{
+  "title": "静态游戏",
+  "description": "一个用React构建的经典游戏合集。",
+  "games": {
+    "2048": "2048",
+    "minesweeper": "扫雷",
+    "tic-tac-toe": "井字棋",
+    "go": "围棋",
+    "chinese-chess": "中国象棋",
+    "2048_description": "一个非常容易上瘾的数字益智游戏。合并图块以达到2048图块！",
+    "minesweeper_description": "经典的逻辑益智游戏。清除棋盘，不要引爆任何地雷！",
+    "tic-tac-toe_description": "经典的X和O游戏，规则可自定义！",
+    "go_description": "古老的策略棋盘游戏。包围领土以获胜！",
+    "chinese-chess_description": "将军和士兵的策略游戏。征服对手的国王！"
+  },
+  "language": "语言",
+  "home": "首页",
+  "play_now": "现在玩",
+  "sidebar": {
+    "portal": "您的娱乐门户",
+    "more_games": "更多游戏（即将推出）"
+  },
+  "game_page": {
+    "loading": "正在加载游戏...",
+    "load_error": "哎呀！我们无法加载游戏。请重试或选择其他游戏。",
+    "not_found": "对不起，您正在寻找的游戏不存在。",
+    "error_title": "出错了",
+    "back_button": "返回游戏选择",
+    "render_error": "无法呈现游戏组件。"
+  },
+  "2048": {
+    "share_message": "2048 游戏状态",
+    "score": "分数",
+    "grid": "网格",
+    "share_success": "游戏状态已复制到剪贴板！",
+    "share_error": "无法复制游戏状态。",
+    "game_over": "游戏结束",
+    "new_game": "新游戏",
+    "share_game": "分享游戏"
+  },
+  "minesweeper": {
+    "change_settings": "更改设置",
+    "settings": {
+      "title": "扫雷设置",
+      "rows": "行数 ({{MIN_ROWS_COLS}}-{{MAX_ROWS}})",
+      "cols": "列数 ({{MIN_ROWS_COLS}}-{{MAX_COLS}})",
+      "mines": "地雷数 ({{MIN_MINES}}-{{max_mines}})",
+      "start_game": "开始游戏",
+      "cancel": "取消",
+      "grid_size_error": "网格大小必须在 {{MIN_ROWS_COLS}}x{{MIN_ROWS_COLS}} 和 {{MAX_ROWS}}x{{MAX_COLS}} 之间。",
+      "mines_error": "地雷数量必须在 {{MIN_MINES}} 和 {{max_mines}} 之间。"
+    }
+  },
+  "tic-tac-toe": {
+    "current_player": "当前玩家",
+    "reset_game": "重置游戏",
+    "settings": "设置"
+  },
+  "go": {
+    "current_player": "当前玩家",
+    "black_captured": "黑方捕获",
+    "white_captured": "白方捕获",
+    "pass": "跳过",
+      "settings_button": "设置",
+      "black": "黑方",
+      "white": "白方",
+      "settings_modal": {
+        "title": "围棋设置",
+        "board_size": "棋盘大小",
+        "komi": "贴目",
+        "handicap": "让子",
+        "start_new_game": "开始新游戏",
+        "cancel": "取消"
+      }
+  },
+  "chinese_chess": {
+      "red": "红方",
+      "black": "黑方",
+      "current_turn": "当前回合: {{player}}",
+      "red_wins": "红方胜利!",
+      "black_wins": "黑方胜利!",
+      "draw": "平局!",
+      "reset_game": "重置游戏",
+      "undo": "悔棋",
+      "redo": "撤销悔棋",
+      "settings_button": "设置",
+      "hide_history": "隐藏历史",
+      "show_history": "显示历史",
+      "exit_focus_mode": "退出专注模式",
+      "focus_mode": "专注模式",
+      "move_history": "历史记录",
+      "play_again": "再玩一次",
+      "close": "关闭",
+      "settings_modal": {
+        "game_settings": "游戏设置",
+        "settings_content_coming_soon": "设置内容即将推出...",
+        "close": "关闭"
+      },
+      "press_esc_to_exit_focus_mode": "按 ESC 键退出专注模式",
+      "congratulations_red": "恭喜红方玩家！",
+      "congratulations_black": "恭喜黑方玩家！",
+      "well_played_by_both_sides": "双方都打得很好！"
+    }
+}
