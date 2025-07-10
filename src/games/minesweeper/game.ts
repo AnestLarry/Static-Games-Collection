@@ -173,13 +173,13 @@ export function revealCell(gameState: GameState, row: number, col: number): Game
 }
 
 // Function to toggle a flag on a cell
-export function toggleFlag(gameState: GameState, row: number, col: number): GameState {
+export function toggleFlag(gameState: GameState, row: number, col: number, isAuto = false): GameState {
   const { board, status } = gameState;
 
   if (status !== 'playing' || !board.length) {
     return gameState;
   }
-  
+
   const cell = board[row][col];
 
   if (cell.state === 'revealed') {
@@ -191,10 +191,10 @@ export function toggleFlag(gameState: GameState, row: number, col: number): Game
 
   if (newCell.state === 'hidden') {
     if (newGameState.minesRemaining > 0) {
-        newCell.state = 'flagged';
-        newGameState.minesRemaining--;
+      newCell.state = isAuto ? 'auto_flagged' : 'flagged';
+      newGameState.minesRemaining--;
     }
-  } else if (newCell.state === 'flagged') {
+  } else if (newCell.state === 'flagged' || newCell.state === 'auto_flagged') {
     newCell.state = 'hidden';
     newGameState.minesRemaining++;
   }
@@ -271,8 +271,7 @@ export function autoCalc(gameState: GameState): GameState {
               if (nr >= 0 && nr < settings.rows && nc >= 0 && nc < settings.cols) {
                 const neighbor = newState.board[nr][nc];
                 if (neighbor.state === 'hidden') {
-                  newState.board[nr][nc].state = 'auto_flagged'; // Visual feedback
-                  newState = toggleFlag(newState, nr, nc);
+                  newState = toggleFlag(newState, nr, nc, true);
                   changesMade = true;
                 }
               }
@@ -314,6 +313,136 @@ export function autoCalc(gameState: GameState): GameState {
   // Recursively call if changes were made
   if (changesMade) {
     newState = autoCalc(newState);
+  }
+
+  return newState;
+}
+
+// Auto-flag all certain mines
+export function autoFlagCertainMines(gameState: GameState): GameState {
+  const { board, settings } = gameState;
+  let newState = { ...gameState, board: JSON.parse(JSON.stringify(board)) };
+
+  for (let r = 0; r < settings.rows; r++) {
+    for (let c = 0; c < settings.cols; c++) {
+      const cell = board[r][c];
+      if (cell.state === 'revealed' && cell.adjacentMines > 0) {
+        const hiddenCount = countHiddenAdjacent(board, r, c, settings.rows, settings.cols);
+        const flagCount = countFlaggedAdjacent(board, r, c, settings.rows, settings.cols);
+        if (hiddenCount > 0 && hiddenCount + flagCount === cell.adjacentMines) {
+          for (let dr = -1; dr <= 1; dr++) {
+            for (let dc = -1; dc <= 1; dc++) {
+              if (dr === 0 && dc === 0) continue;
+              const nr = r + dr;
+              const nc = c + dc;
+              if (nr >= 0 && nr < settings.rows && nc >= 0 && nc < settings.cols) {
+                const neighbor = newState.board[nr][nc];
+                if (neighbor.state === 'hidden') {
+                  newState = toggleFlag(newState, nr, nc, true);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return newState;
+}
+
+// Flag one certain mine
+export function flagOneCertainMine(gameState: GameState): GameState {
+  const { board, settings } = gameState;
+  let newState = { ...gameState, board: JSON.parse(JSON.stringify(board)) };
+
+  for (let r = 0; r < settings.rows; r++) {
+    for (let c = 0; c < settings.cols; c++) {
+      const cell = board[r][c];
+      if (cell.state === 'revealed' && cell.adjacentMines > 0) {
+        const hiddenCount = countHiddenAdjacent(board, r, c, settings.rows, settings.cols);
+        const flagCount = countFlaggedAdjacent(board, r, c, settings.rows, settings.cols);
+        if (hiddenCount > 0 && hiddenCount + flagCount === cell.adjacentMines) {
+          for (let dr = -1; dr <= 1; dr++) {
+            for (let dc = -1; dc <= 1; dc++) {
+              if (dr === 0 && dc === 0) continue;
+              const nr = r + dr;
+              const nc = c + dc;
+              if (nr >= 0 && nr < settings.rows && nc >= 0 && nc < settings.cols) {
+                const neighbor = newState.board[nr][nc];
+                if (neighbor.state === 'hidden') {
+                  return toggleFlag(newState, nr, nc, true);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return newState;
+}
+
+// Open all certain empty cells
+export function openAllCertainEmptyCells(gameState: GameState): GameState {
+  const { board, settings } = gameState;
+  let newState = { ...gameState, board: JSON.parse(JSON.stringify(board)) };
+
+  for (let r = 0; r < settings.rows; r++) {
+    for (let c = 0; c < settings.cols; c++) {
+      const cell = board[r][c];
+      if (cell.state === 'revealed' && cell.adjacentMines > 0) {
+        const flagCount = countFlaggedAdjacent(board, r, c, settings.rows, settings.cols);
+        if (flagCount === cell.adjacentMines) {
+          for (let dr = -1; dr <= 1; dr++) {
+            for (let dc = -1; dc <= 1; dc++) {
+              if (dr === 0 && dc === 0) continue;
+              const nr = r + dr;
+              const nc = c + dc;
+              if (nr >= 0 && nr < settings.rows && nc >= 0 && nc < settings.cols) {
+                const neighbor = newState.board[nr][nc];
+                if (neighbor.state === 'hidden') {
+                  newState = revealCell(newState, nr, nc);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return newState;
+}
+
+// Open one certain empty cell
+export function openOneCertainEmptyCell(gameState: GameState): GameState {
+  const { board, settings } = gameState;
+  let newState = { ...gameState, board: JSON.parse(JSON.stringify(board)) };
+
+  for (let r = 0; r < settings.rows; r++) {
+    for (let c = 0; c < settings.cols; c++) {
+      const cell = board[r][c];
+      if (cell.state === 'revealed' && cell.adjacentMines > 0) {
+        const flagCount = countFlaggedAdjacent(board, r, c, settings.rows, settings.cols);
+        if (flagCount === cell.adjacentMines) {
+          for (let dr = -1; dr <= 1; dr++) {
+            for (let dc = -1; dc <= 1; dc++) {
+              if (dr === 0 && dc === 0) continue;
+              const nr = r + dr;
+              const nc = c + dc;
+              if (nr >= 0 && nr < settings.rows && nc >= 0 && nc < settings.cols) {
+                const neighbor = newState.board[nr][nc];
+                if (neighbor.state === 'hidden') {
+                  return revealCell(newState, nr, nc);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   return newState;
