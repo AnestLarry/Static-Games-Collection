@@ -138,7 +138,7 @@ const _getRawLegalMoves = (board: Board, startPos: [number, number]): [number, n
       });
       break;
 
-    case '俥': case '炮':
+    case '俥': case '炮': {
       const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
       directions.forEach(([dr, dc]) => {
         let r = startRow + dr;
@@ -168,8 +168,8 @@ const _getRawLegalMoves = (board: Board, startPos: [number, number]): [number, n
         }
       });
       break;
-
-    case '兵': case '卒':
+    }
+    case '兵': case '卒': {
       const forwardDir = color === 'red' ? -1 : 1;
       addMove(startRow + forwardDir, startCol);
       if (hasCrossedRiver(startRow, color)) {
@@ -177,6 +177,7 @@ const _getRawLegalMoves = (board: Board, startPos: [number, number]): [number, n
         addMove(startRow, startCol - 1);
       }
       break;
+    }
   }
   return moves;
 };

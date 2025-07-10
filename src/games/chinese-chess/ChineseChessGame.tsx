@@ -50,7 +50,7 @@ const ChineseChessGame: React.FC = () => {
   }, [isFocusMode]);
 
   useEffect(() => {
-    let timer: number;
+    let timer: NodeJS.Timeout;
     if (showFocusTip) {
       timer = setTimeout(() => {
         setShowFocusTip(false);

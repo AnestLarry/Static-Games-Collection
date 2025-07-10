@@ -354,7 +354,7 @@ export function autoFlagCertainMines(gameState: GameState): GameState {
 // Flag one certain mine
 export function flagOneCertainMine(gameState: GameState): GameState {
   const { board, settings } = gameState;
-  let newState = { ...gameState, board: JSON.parse(JSON.stringify(board)) };
+  const newState = { ...gameState, board: JSON.parse(JSON.stringify(board)) };
 
   for (let r = 0; r < settings.rows; r++) {
     for (let c = 0; c < settings.cols; c++) {
@@ -419,7 +419,7 @@ export function openAllCertainEmptyCells(gameState: GameState): GameState {
 // Open one certain empty cell
 export function openOneCertainEmptyCell(gameState: GameState): GameState {
   const { board, settings } = gameState;
-  let newState = { ...gameState, board: JSON.parse(JSON.stringify(board)) };
+  const newState = { ...gameState, board: JSON.parse(JSON.stringify(board)) };
 
   for (let r = 0; r < settings.rows; r++) {
     for (let c = 0; c < settings.cols; c++) {
