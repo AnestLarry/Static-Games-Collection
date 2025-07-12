@@ -96,9 +96,9 @@ export function revealCell(gameState: GameState, row: number, col: number): Game
   // If the game hasn't started, create the board and reveal first cell
   if (status === 'not_started') {
     const newBoard = createBoard(settings, { row, col });
-    const newGameState: GameState = { 
-      ...gameState, 
-      board: newBoard, 
+    const newGameState: GameState = {
+      ...gameState,
+      board: newBoard,
       status: 'playing',
       startTime: Date.now(),
       cellsRevealed: 1,
@@ -108,16 +108,16 @@ export function revealCell(gameState: GameState, row: number, col: number): Game
     newGameState.board[row][col].state = 'revealed';
     return newGameState;
   }
-  
+
   const cell = board[row][col];
 
   if (cell.state !== 'hidden' || status !== 'playing') {
     return { ...gameState, board, status };
   }
 
-  let newGameState: GameState = { 
-    ...gameState, 
-    board: JSON.parse(JSON.stringify(board)) as Board, 
+  let newGameState: GameState = {
+    ...gameState,
+    board: JSON.parse(JSON.stringify(board)) as Board,
     status: 'playing' as const
   }; // Deep copy board
 
@@ -249,6 +249,152 @@ export function checkWinCondition(gameState: GameState): boolean {
   return revealedCount === settings.rows * settings.cols - settings.mines;
 }
 
+// Type for tracking constraints
+interface Constraint {
+  row: number;
+  col: number;
+  hiddenCells: { row: number, col: number }[];
+  remainingMines: number;
+}
+
+// Collect all constraints from the board
+function collectConstraints(board: Board, rows: number, cols: number): Constraint[] {
+  const constraints: Constraint[] = [];
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const cell = board[r][c];
+      if (cell.state === 'revealed' && cell.adjacentMines > 0) {
+        const hiddenCells: { row: number, col: number }[] = [];
+        for (let dr = -1; dr <= 1; dr++) {
+          for (let dc = -1; dc <= 1; dc++) {
+            if (dr === 0 && dc === 0) continue;
+            const nr = r + dr;
+            const nc = c + dc;
+            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && board[nr][nc].state === 'hidden') {
+              hiddenCells.push({ row: nr, col: nc });
+            }
+          }
+        }
+        if (hiddenCells.length > 0) {
+          const flagCount = countFlaggedAdjacent(board, r, c, rows, cols);
+          constraints.push({
+            row: r,
+            col: c,
+            hiddenCells,
+            remainingMines: cell.adjacentMines - flagCount
+          });
+        }
+      }
+    }
+  }
+  return constraints;
+}
+
+// Find advanced deductions by comparing constraints
+function findAdvancedDeductions(constraints: Constraint[]): { safeCells: { row: number, col: number }[], mines: { row: number, col: number }[] } {
+  const safeCells: { row: number, col: number }[] = [];
+  const mines: { row: number, col: number }[] = [];
+
+  // First pass: Pairwise deductions (original logic)
+  for (let i = 0; i < constraints.length; i++) {
+    for (let j = i + 1; j < constraints.length; j++) {
+      const c1 = constraints[i];
+      const c2 = constraints[j];
+
+      const intersection = c1.hiddenCells.filter(cell1 =>
+        c2.hiddenCells.some(cell2 => cell1.row === cell2.row && cell1.col === cell2.col)
+      );
+
+      if (intersection.length > 0) {
+        // Subset checks (original logic)
+        if (c1.hiddenCells.every(cell1 =>
+          c2.hiddenCells.some(cell2 => cell1.row === cell2.row && cell1.col === cell2.col)
+        )) {
+          const diff = c2.hiddenCells.filter(cell2 =>
+            !c1.hiddenCells.some(cell1 => cell1.row === cell2.row && cell1.col === cell2.col)
+          );
+          const mineDiff = c2.remainingMines - c1.remainingMines;
+
+          if (mineDiff === 0) {
+            safeCells.push(...diff);
+          } else if (diff.length === mineDiff) {
+            mines.push(...diff);
+          }
+        }
+        else if (c2.hiddenCells.every(cell2 =>
+          c1.hiddenCells.some(cell1 => cell1.row === cell2.row && cell1.col === cell2.col)
+        )) {
+          const diff = c1.hiddenCells.filter(cell1 =>
+            !c2.hiddenCells.some(cell2 => cell1.row === cell2.row && cell1.col === cell2.col)
+          );
+          const mineDiff = c1.remainingMines - c2.remainingMines;
+
+          if (mineDiff === 0) {
+            safeCells.push(...diff);
+          } else if (diff.length === mineDiff) {
+            mines.push(...diff);
+          }
+        }
+      }
+    }
+  }
+
+  // Second pass: Higher-order constraint combinations (new logic)
+  for (let i = 0; i < constraints.length; i++) {
+    for (let j = i + 1; j < constraints.length; j++) {
+      for (let k = j + 1; k < constraints.length; k++) {
+        const c1 = constraints[i];
+        const c2 = constraints[j];
+        const c3 = constraints[k];
+
+        // Calculate overlapping regions needed for deduction
+        const c1Only = c1.hiddenCells.filter(c1Cell =>
+          !c2.hiddenCells.some(c2Cell => c2Cell.row === c1Cell.row && c2Cell.col === c1Cell.col) &&
+          !c3.hiddenCells.some(c3Cell => c3Cell.row === c1Cell.row && c3Cell.col === c1Cell.col)
+        );
+        const c2Only = c2.hiddenCells.filter(c2Cell =>
+          !c1.hiddenCells.some(c1Cell => c1Cell.row === c2Cell.row && c1Cell.col === c2Cell.col) &&
+          !c3.hiddenCells.some(c3Cell => c3Cell.row === c2Cell.row && c3Cell.col === c2Cell.col)
+        );
+        const c3Only = c3.hiddenCells.filter(c3Cell =>
+          !c1.hiddenCells.some(c1Cell => c1Cell.row === c3Cell.row && c1Cell.col === c3Cell.col) &&
+          !c2.hiddenCells.some(c2Cell => c2Cell.row === c3Cell.row && c2Cell.col === c3Cell.col)
+        );
+        const c1c2 = c1.hiddenCells.filter(c1Cell =>
+          c2.hiddenCells.some(c2Cell => c2Cell.row === c1Cell.row && c2Cell.col === c1Cell.col) &&
+          !c3.hiddenCells.some(c3Cell => c3Cell.row === c1Cell.row && c3Cell.col === c1Cell.col)
+        );
+        const c1c2c3 = c1.hiddenCells.filter(c1Cell =>
+          c2.hiddenCells.some(c2Cell => c2Cell.row === c1Cell.row && c2Cell.col === c1Cell.col) &&
+          c3.hiddenCells.some(c3Cell => c3Cell.row === c1Cell.row && c3Cell.col === c1Cell.col)
+        );
+
+        // Solve the system of equations
+        const overlappingMines = c1c2c3.length > 0 ? 1 : 0; // Simplified assumption
+
+        // Check if we can deduce any cells
+        if (c1Only.length === 0 && c2Only.length === 0 && c1c2.length === 0) {
+          const remainingMines = c3.remainingMines - c1.remainingMines - c2.remainingMines + overlappingMines;
+          const remainingCells = c3Only;
+
+          if (remainingMines === remainingCells.length) {
+            mines.push(...remainingCells);
+          } else if (remainingMines === 0) {
+            safeCells.push(...remainingCells);
+          }
+        }
+      }
+    }
+  }
+
+  // Remove duplicates
+  const uniqueSafeCells = [...new Map(safeCells.map(cell => [`${cell.row},${cell.col}`, cell])).values()];
+  const uniqueMines = [...new Map(mines.map(cell => [`${cell.row},${cell.col}`, cell])).values()];
+
+  return { safeCells: uniqueSafeCells, mines: uniqueMines };
+}
+
 // Auto-calculate safe moves with recursive flagging and revealing
 export function autoCalc(gameState: GameState): GameState {
   const { board, settings } = gameState;
@@ -289,7 +435,7 @@ export function autoCalc(gameState: GameState): GameState {
       if (cell.state === 'revealed' && cell.adjacentMines > 0) {
         const flagCount = countFlaggedAdjacent(newState.board, r, c, settings.rows, settings.cols);
         const hiddenCount = countHiddenAdjacent(newState.board, r, c, settings.rows, settings.cols);
-        
+
         if (flagCount === cell.adjacentMines && hiddenCount > 0) {
           for (let dr = -1; dr <= 1; dr++) {
             for (let dc = -1; dc <= 1; dc++) {
@@ -307,6 +453,26 @@ export function autoCalc(gameState: GameState): GameState {
           }
         }
       }
+    }
+  }
+
+  // Third pass: Advanced deductions
+  const constraints = collectConstraints(newState.board, settings.rows, settings.cols);
+  const { safeCells, mines } = findAdvancedDeductions(constraints);
+
+  // Flag deduced mines
+  for (const mine of mines) {
+    if (newState.board[mine.row][mine.col].state === 'hidden') {
+      newState = toggleFlag(newState, mine.row, mine.col, true);
+      changesMade = true;
+    }
+  }
+
+  // Reveal safe cells
+  for (const safeCell of safeCells) {
+    if (newState.board[safeCell.row][safeCell.col].state === 'hidden') {
+      newState = revealCell(newState, safeCell.row, safeCell.col);
+      changesMade = true;
     }
   }
 
