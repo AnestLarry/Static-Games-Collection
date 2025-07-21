@@ -95,11 +95,16 @@
       "settings_modal": {
         "game_settings": "ゲーム設定",
         "settings_content_coming_soon": "設定内容は近日公開予定です...",
-        "close": "閉じる"
+        "close": "閉じる",
+        "rotate_black_pieces": "黒の駒を回転"
       },
       "press_esc_to_exit_focus_mode": "ESCキーを押してフォーカスモードを終了します",
       "congratulations_red": "赤プレイヤー、おめでとうございます！",
       "congratulations_black": "黒プレイヤー、おめでとうございます！",
       "well_played_by_both_sides": "両者ともによく戦いました！"
+    },
+    "common": {
+      "on": "オン",
+      "off": "オフ"
     }
 }

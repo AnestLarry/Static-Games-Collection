@@ -15,6 +15,7 @@ const ChineseChessGame: React.FC = () => {
   const [isHistoryVisible, setIsHistoryVisible] = useState(true);
   const [isFocusMode, setIsFocusMode] = useState(false);
   const [showFocusTip, setShowFocusTip] = useState(false);
+  const [rotateBlackPieces, setRotateBlackPieces] = useState(false);
   const { t } = useTranslation();
 
   const handlePlayAgain = () => {
@@ -32,6 +33,10 @@ const ChineseChessGame: React.FC = () => {
   const toggleFocusMode = () => {
     setIsFocusMode(prev => !prev);
     setShowFocusTip(!isFocusMode); // Show tip when entering focus mode
+  };
+
+  const toggleRotateBlackPieces = () => {
+    setRotateBlackPieces(prev => !prev);
   };
 
   useEffect(() => {
@@ -86,6 +91,7 @@ const ChineseChessGame: React.FC = () => {
           selectedPiece={gameState.selectedPiece}
           onSquareClick={handleSquareClick}
           isFocusMode={isFocusMode} // Pass focus mode to board
+          rotateBlackPieces={rotateBlackPieces}
         />
         
         {!isFocusMode && (
@@ -122,6 +128,8 @@ const ChineseChessGame: React.FC = () => {
       {!isFocusMode && isSettingsOpen && (
         <ChineseChessSettings 
           onClose={() => setIsSettingsOpen(false)}
+          rotateBlackPieces={rotateBlackPieces}
+          onToggleRotate={toggleRotateBlackPieces}
         />
       )}
     </div>

@@ -95,11 +95,16 @@
       "settings_modal": {
         "game_settings": "Game Settings",
         "settings_content_coming_soon": "Settings content coming soon...",
-        "close": "Close"
+        "close": "Close",
+        "rotate_black_pieces": "Rotate Black Pieces"
       },
       "press_esc_to_exit_focus_mode": "Press ESC to exit Focus Mode",
       "congratulations_red": "Congratulations to the Red player!",
       "congratulations_black": "Congratulations to the Black player!",
       "well_played_by_both_sides": "Well played by both sides!"
+    },
+    "common": {
+      "on": "On",
+      "off": "Off"
     }
 }

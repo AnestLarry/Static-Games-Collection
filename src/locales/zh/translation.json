@@ -95,11 +95,16 @@
       "settings_modal": {
         "game_settings": "游戏设置",
         "settings_content_coming_soon": "设置内容即将推出...",
-        "close": "关闭"
+        "close": "关闭",
+        "rotate_black_pieces": "旋转黑棋"
       },
       "press_esc_to_exit_focus_mode": "按 ESC 键退出专注模式",
       "congratulations_red": "恭喜红方玩家！",
       "congratulations_black": "恭喜黑方玩家！",
       "well_played_by_both_sides": "双方都打得很好！"
+    },
+    "common": {
+      "on": "开",
+      "off": "关"
     }
 }
