@@ -9,6 +9,7 @@ const gameComponents: Record<string, () => Promise<{ default: React.FC<GameProps
   'tic-tac-toe': () => import('../games/tic-tac-toe'),
   'go': () => import('../games/go'),
   'chinese-chess': () => import('../games/chinese-chess'),
+  'snake': () => import('../games/snake'),
   // Add more games here
 };
 

@@ -7,11 +7,13 @@
     "tic-tac-toe": "井字棋",
     "go": "围棋",
     "chinese-chess": "中国象棋",
+    "snake": "贪吃蛇",
     "2048_description": "一个非常容易上瘾的数字益智游戏。合并图块以达到2048图块！",
     "minesweeper_description": "经典的逻辑益智游戏。清除棋盘，不要引爆任何地雷！",
     "tic-tac-toe_description": "经典的X和O游戏，规则可自定义！",
     "go_description": "古老的策略棋盘游戏。包围领土以获胜！",
-    "chinese-chess_description": "将军和士兵的策略游戏。征服对手的国王！"
+    "chinese-chess_description": "将军和士兵的策略游戏。征服对手的国王！",
+    "snake_description": "经典的街机游戏。吃食物，变长，避免碰撞！"
   },
   "language": "语言",
   "home": "首页",
@@ -102,6 +104,41 @@
       "congratulations_red": "恭喜红方玩家！",
       "congratulations_black": "恭喜黑方玩家！",
       "well_played_by_both_sides": "双方都打得很好！"
+    },
+    "snake": {
+      "score": "分数",
+      "high_score": "最高分",
+      "status_text": "状态",
+      "reset_game": "重置游戏",
+      "pause": "暂停",
+      "resume": "继续",
+      "settings_button": "设置",
+      "controls": {
+        "arrow_keys": "使用方向键",
+        "space_to_pause": "按空格键暂停/继续"
+      },
+      "status": {
+        "playing": "游戏中",
+        "paused": "已暂停",
+        "game_over": "游戏结束"
+      },
+      "settings": {
+        "title": "贪吃蛇设置",
+        "board_size": "棋盘大小",
+        "speed": "速度",
+        "enable_walls": "启用墙壁",
+        "enable_powerups": "启用道具",
+        "apply": "应用",
+        "cancel": "取消"
+      },
+      "result": {
+        "game_over": "游戏结束",
+        "new_high_score": "新纪录！",
+        "score": "分数",
+        "high_score": "最高分",
+        "close": "关闭",
+        "play_again": "再玩一次"
+      }
     },
     "common": {
       "on": "开",

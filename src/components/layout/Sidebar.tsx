@@ -71,6 +71,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
             </Link>
           </li>
           <li>
+            <Link 
+              to="/games/snake"
+              className="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-200 group"
+            >
+              <span className="w-5 h-5 bg-green-600 rounded-sm group-hover:bg-emerald-500 transition-colors"></span>
+              {!isCollapsed && <span className="text-lg font-medium">{t('games.snake')}</span>}
+            </Link>
+          </li>
+          <li>
             <span 
               className="flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-500 cursor-not-allowed group"
             >

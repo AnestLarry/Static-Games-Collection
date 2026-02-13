@@ -7,11 +7,13 @@
     "tic-tac-toe": "Tic Tac Toe",
     "go": "Go",
     "chinese-chess": "Chinese Chess",
+    "snake": "Snake",
     "2048_description": "A highly addictive number puzzle. Combine tiles to reach the 2048 tile!",
     "minesweeper_description": "The classic logic puzzle. Clear the board without detonating any mines!",
     "tic-tac-toe_description": "The classic game of X's and O's with customizable rules!",
     "go_description": "The ancient strategy board game. Surround territory to win!",
-    "chinese-chess_description": "The strategic game of generals and soldiers. Conquer your opponent's king!"
+    "chinese-chess_description": "The strategic game of generals and soldiers. Conquer your opponent's king!",
+    "snake_description": "The classic arcade game. Eat food, grow longer, and avoid collisions!"
   },
   "language": "Language",
   "home": "Home",
@@ -102,6 +104,41 @@
       "congratulations_red": "Congratulations to the Red player!",
       "congratulations_black": "Congratulations to the Black player!",
       "well_played_by_both_sides": "Well played by both sides!"
+    },
+    "snake": {
+      "score": "Score",
+      "high_score": "High Score",
+      "status_text": "Status",
+      "reset_game": "Reset Game",
+      "pause": "Pause",
+      "resume": "Resume",
+      "settings_button": "Settings",
+      "controls": {
+        "arrow_keys": "Use Arrow Keys",
+        "space_to_pause": "Press SPACE to pause/resume"
+      },
+      "status": {
+        "playing": "Playing",
+        "paused": "Paused",
+        "game_over": "Game Over"
+      },
+      "settings": {
+        "title": "Snake Settings",
+        "board_size": "Board Size",
+        "speed": "Speed",
+        "enable_walls": "Enable Walls",
+        "enable_powerups": "Enable Power-ups",
+        "apply": "Apply",
+        "cancel": "Cancel"
+      },
+      "result": {
+        "game_over": "Game Over",
+        "new_high_score": "New High Score!",
+        "score": "Score",
+        "high_score": "High Score",
+        "close": "Close",
+        "play_again": "Play Again"
+      }
     },
     "common": {
       "on": "On",
