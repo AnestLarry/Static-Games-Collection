@@ -152,6 +152,20 @@ export const SudokuIcon: React.FC<GameIconProps> = ({ className }) => (
   </svg>
 );
 
+// Maze Icon (labyrinth path)
+export const MazeIcon: React.FC<GameIconProps> = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+  >
+    <rect x="3" y="3" width="18" height="18" rx="1" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <path d="M3 7h12v4H7v4h10v4" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <circle cx="5" cy="5" r="1.5" fill="currentColor" />
+    <circle cx="19" cy="19" r="1.5" fill="currentColor" />
+  </svg>
+);
+
 // More Games Icon
 export const MoreGamesIcon: React.FC<GameIconProps> = ({ className }) => (
   <svg

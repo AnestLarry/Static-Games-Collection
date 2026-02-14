@@ -17,7 +17,9 @@
     "tetris": "テトリス",
     "tetris_description": "伝説のブロック積み上げパズル。ラインを消して、できるだけ長く生き残ろう！",
     "sudoku": "数独",
-    "sudoku_description": "クラシックな数字パズル。9x9グリッドに1-9を埋めよう！"
+    "sudoku_description": "クラシックな数字パズル。9x9グリッドに1-9を埋めよう！",
+    "maze": "迷路",
+    "maze_description": "アルゴリズムで生成される迷路を攻略。3つの難易度！"
   },
   "language": "言語",
   "home": "ホーム",
@@ -212,6 +214,51 @@
         "time": "時間",
         "mistakes": "ミス",
         "hints_used": "ヒント使用",
+        "close": "閉じる",
+        "play_again": "もう一度プレイ"
+      }
+    },
+    "maze": {
+      "difficulty": "難易度",
+      "settings_button": "設定",
+      "reset_game": "新しい迷路",
+      "show_solution": "解答を表示",
+      "hide_solution": "解答を非表示",
+      "legend": {
+        "start": "スタート",
+        "end": "ゴール",
+        "player": "プレイヤー",
+        "solution": "ルート"
+      },
+      "controls": {
+        "keyboard": "矢印キーまたはWASDで移動"
+      },
+      "settings": {
+        "title": "迷路設定",
+        "difficulty": "難易度",
+        "easy": "初級",
+        "medium": "中級",
+        "hard": "上級",
+        "easy_hint": "11x11迷路 - 初心者向け",
+        "medium_hint": "21x21迷路 - バランス型",
+        "hard_hint": "31x31迷路 - 上級者向け",
+        "show_timer": "タイマーを表示",
+        "show_moves": "移動回数を表示",
+        "apply": "適用",
+        "cancel": "キャンセル"
+      },
+      "result": {
+        "complete": "迷路クリア！",
+        "congratulations": "出口を見つけました！",
+        "difficulty": "難易度",
+        "time": "時間",
+        "your_moves": "あなたの移動",
+        "optimal_moves": "最適移動",
+        "efficiency": "効率",
+        "perfect": "完璧なルート！素晴らしい！",
+        "great": "素晴らしい！ほぼ完璧！",
+        "good": "いい仕事！まだ改善の余地あり。",
+        "keep_practicing": "練習を続けよう！",
         "close": "閉じる",
         "play_again": "もう一度プレイ"
       }

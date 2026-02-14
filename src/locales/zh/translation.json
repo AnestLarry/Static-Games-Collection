@@ -17,7 +17,9 @@
     "snake_description": "经典的街机游戏。吃食物，变长，避免碰撞！",
     "tetris_description": "传奇的方块堆叠益智游戏。消除整行，尽可能坚持更久！",
     "sudoku": "数独",
-    "sudoku_description": "经典数字益智游戏。填满9x9网格，使每行、每列、每个3x3宫格包含1-9！"
+    "sudoku_description": "经典数字益智游戏。填满9x9网格，使每行、每列、每个3x3宫格包含1-9！",
+    "maze": "迷宫",
+    "maze_description": "穿越算法生成的迷宫。三种难度，保证有解！"
   },
   "language": "语言",
   "home": "首页",
@@ -212,6 +214,51 @@
         "time": "用时",
         "mistakes": "错误",
         "hints_used": "使用提示",
+        "close": "关闭",
+        "play_again": "再玩一次"
+      }
+    },
+    "maze": {
+      "difficulty": "难度",
+      "settings_button": "设置",
+      "reset_game": "新迷宫",
+      "show_solution": "显示答案",
+      "hide_solution": "隐藏答案",
+      "legend": {
+        "start": "起点",
+        "end": "终点",
+        "player": "玩家",
+        "solution": "路径"
+      },
+      "controls": {
+        "keyboard": "方向键或WASD移动"
+      },
+      "settings": {
+        "title": "迷宫设置",
+        "difficulty": "难度",
+        "easy": "简单",
+        "medium": "中等",
+        "hard": "困难",
+        "easy_hint": "11x11迷宫 - 适合新手",
+        "medium_hint": "21x21迷宫 - 均衡挑战",
+        "hard_hint": "31x31迷宫 - 专家难度",
+        "show_timer": "显示计时器",
+        "show_moves": "显示步数",
+        "apply": "应用",
+        "cancel": "取消"
+      },
+      "result": {
+        "complete": "迷宫完成！",
+        "congratulations": "你找到了出口！",
+        "difficulty": "难度",
+        "time": "用时",
+        "your_moves": "你的步数",
+        "optimal_moves": "最优步数",
+        "efficiency": "效率",
+        "perfect": "完美路线！太厉害了！",
+        "great": "做得好！接近完美！",
+        "good": "不错的成绩！还有提升空间。",
+        "keep_practicing": "继续练习！",
         "close": "关闭",
         "play_again": "再玩一次"
       }

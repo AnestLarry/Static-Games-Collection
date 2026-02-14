@@ -17,7 +17,9 @@
     "snake_description": "The classic arcade game. Eat food, grow longer, and avoid collisions!",
     "tetris_description": "The legendary block-stacking puzzle game. Clear lines and survive as long as you can!",
     "sudoku": "Sudoku",
-    "sudoku_description": "Classic number puzzle. Fill the 9x9 grid so each row, column, and 3x3 box contains 1-9!"
+    "sudoku_description": "Classic number puzzle. Fill the 9x9 grid so each row, column, and 3x3 box contains 1-9!",
+    "maze": "Maze",
+    "maze_description": "Find your way through algorithmically generated labyrinths. Three difficulty levels!"
   },
   "language": "Language",
   "home": "Home",
@@ -212,6 +214,51 @@
         "time": "Time",
         "mistakes": "Mistakes",
         "hints_used": "Hints Used",
+        "close": "Close",
+        "play_again": "Play Again"
+      }
+    },
+    "maze": {
+      "difficulty": "Difficulty",
+      "settings_button": "Settings",
+      "reset_game": "New Maze",
+      "show_solution": "Show Solution",
+      "hide_solution": "Hide Solution",
+      "legend": {
+        "start": "Start",
+        "end": "End",
+        "player": "Player",
+        "solution": "Solution"
+      },
+      "controls": {
+        "keyboard": "Arrow keys or WASD to move"
+      },
+      "settings": {
+        "title": "Maze Settings",
+        "difficulty": "Difficulty",
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard",
+        "easy_hint": "11x11 maze - Good for beginners",
+        "medium_hint": "21x21 maze - Balanced challenge",
+        "hard_hint": "31x31 maze - Expert level",
+        "show_timer": "Show Timer",
+        "show_moves": "Show Moves",
+        "apply": "Apply",
+        "cancel": "Cancel"
+      },
+      "result": {
+        "complete": "Maze Complete!",
+        "congratulations": "You found the exit!",
+        "difficulty": "Difficulty",
+        "time": "Time",
+        "your_moves": "Your Moves",
+        "optimal_moves": "Optimal",
+        "efficiency": "Efficiency",
+        "perfect": "Perfect path! Amazing!",
+        "great": "Great job! Nearly perfect!",
+        "good": "Good work! Room for improvement.",
+        "keep_practicing": "Keep practicing!",
         "close": "Close",
         "play_again": "Play Again"
       }

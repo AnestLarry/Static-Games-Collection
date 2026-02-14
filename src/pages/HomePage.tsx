@@ -124,6 +124,20 @@ const HomePage: React.FC = () => {
           </div>
         </Link>
 
+        {/* Game Card for Maze */}
+        <Link 
+          to="/games/maze" 
+          className="block bg-white rounded-xl shadow-2xl hover:shadow-purple-400/50 transform hover:-translate-y-1 transition-all duration-300 overflow-hidden group"
+        >
+          <div className="p-6">
+            <h2 className="text-2xl font-bold mb-3 text-purple-700 group-hover:text-fuchsia-600 transition-colors">{t('games.maze')}</h2>
+            <p className="text-gray-700 mb-4">{t('games.maze_description')}</p>
+            <span className="inline-block bg-purple-500 group-hover:bg-fuchsia-500 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors">
+              {t('play_now')}
+            </span>
+          </div>
+        </Link>
+
         {/* Add more game cards here by duplicating the structure above */}
       </div>
     </div>

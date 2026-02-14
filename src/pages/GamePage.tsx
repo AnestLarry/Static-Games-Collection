@@ -12,6 +12,7 @@ const gameComponents: Record<string, () => Promise<{ default: React.FC<GameProps
   'snake': () => import('../games/snake'),
   'tetris': () => import('../games/tetris'),
   'sudoku': () => import('../games/sudoku'),
+  'maze': () => import('../games/maze'),
   // Add more games here
 };
 

@@ -11,6 +11,7 @@ import {
   SnakeIcon,
   TetrisIcon,
   SudokuIcon,
+  MazeIcon,
   MoreGamesIcon,
 } from './GameIcons';
 
@@ -106,6 +107,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
             >
               <SudokuIcon className="w-5 h-5 text-indigo-500 group-hover:text-violet-500 transition-colors" />
               {!isCollapsed && <span className="text-lg font-medium">{t('games.sudoku')}</span>}
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/games/maze"
+              className={`flex items-center rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-200 group ${isCollapsed ? 'justify-center p-3' : 'px-4 py-3 space-x-3'}`}
+            >
+              <MazeIcon className="w-5 h-5 text-purple-500 group-hover:text-fuchsia-500 transition-colors" />
+              {!isCollapsed && <span className="text-lg font-medium">{t('games.maze')}</span>}
             </Link>
           </li>
           <li>
