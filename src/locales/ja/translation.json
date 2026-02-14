@@ -15,7 +15,9 @@
     "chinese-chess_description": "将軍と兵士の戦略ゲーム。相手の王を征服しましょう！",
     "snake_description": "クラシックなアーケードゲーム。餌を食べて長くなり、衝突を避けましょう！",
     "tetris": "テトリス",
-    "tetris_description": "伝説のブロック積み上げパズル。ラインを消して、できるだけ長く生き残ろう！"
+    "tetris_description": "伝説のブロック積み上げパズル。ラインを消して、できるだけ長く生き残ろう！",
+    "sudoku": "数独",
+    "sudoku_description": "クラシックな数字パズル。9x9グリッドに1-9を埋めよう！"
   },
   "language": "言語",
   "home": "ホーム",
@@ -174,6 +176,42 @@
         "high_score": "ハイスコア",
         "level": "レベル",
         "lines": "ライン",
+        "close": "閉じる",
+        "play_again": "もう一度プレイ"
+      }
+    },
+    "sudoku": {
+      "difficulty": "難易度",
+      "mistakes": "ミス",
+      "reset_game": "ゲームをリセット",
+      "settings_button": "設定",
+      "auto_notes": "メモを自動入力",
+      "controls": {
+        "click_number": "セルをクリックし、数字を選択",
+        "keyboard": "キーボード：1-9入力、0/Backspaceでクリア",
+        "notes_toggle": "N：メモモード切替、H：ヒント"
+      },
+      "settings": {
+        "title": "数独設定",
+        "difficulty": "難易度",
+        "easy": "初級",
+        "medium": "中級",
+        "hard": "上級",
+        "max_mistakes": "最大ミス数",
+        "unlimited": "無制限",
+        "show_timer": "タイマーを表示",
+        "highlight_conflicts": "競合をハイライト",
+        "apply": "適用",
+        "cancel": "キャンセル"
+      },
+      "result": {
+        "complete": "パズル完成！",
+        "congratulations": "おめでとう！クリアしました！",
+        "game_over": "ミスが多すぎます！",
+        "difficulty": "難易度",
+        "time": "時間",
+        "mistakes": "ミス",
+        "hints_used": "ヒント使用",
         "close": "閉じる",
         "play_again": "もう一度プレイ"
       }

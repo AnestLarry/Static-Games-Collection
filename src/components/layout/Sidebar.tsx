@@ -10,6 +10,7 @@ import {
   ChineseChessIcon,
   SnakeIcon,
   TetrisIcon,
+  SudokuIcon,
   MoreGamesIcon,
 } from './GameIcons';
 
@@ -96,6 +97,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
             >
               <TetrisIcon className="w-5 h-5 text-cyan-500 group-hover:text-teal-500 transition-colors" />
               {!isCollapsed && <span className="text-lg font-medium">{t('games.tetris')}</span>}
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/games/sudoku"
+              className={`flex items-center rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-200 group ${isCollapsed ? 'justify-center p-3' : 'px-4 py-3 space-x-3'}`}
+            >
+              <SudokuIcon className="w-5 h-5 text-indigo-500 group-hover:text-violet-500 transition-colors" />
+              {!isCollapsed && <span className="text-lg font-medium">{t('games.sudoku')}</span>}
             </Link>
           </li>
           <li>

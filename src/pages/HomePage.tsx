@@ -110,6 +110,20 @@ const HomePage: React.FC = () => {
           </div>
         </Link>
 
+        {/* Game Card for Sudoku */}
+        <Link 
+          to="/games/sudoku" 
+          className="block bg-white rounded-xl shadow-2xl hover:shadow-indigo-400/50 transform hover:-translate-y-1 transition-all duration-300 overflow-hidden group"
+        >
+          <div className="p-6">
+            <h2 className="text-2xl font-bold mb-3 text-indigo-700 group-hover:text-violet-600 transition-colors">{t('games.sudoku')}</h2>
+            <p className="text-gray-700 mb-4">{t('games.sudoku_description')}</p>
+            <span className="inline-block bg-indigo-500 group-hover:bg-violet-500 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors">
+              {t('play_now')}
+            </span>
+          </div>
+        </Link>
+
         {/* Add more game cards here by duplicating the structure above */}
       </div>
     </div>

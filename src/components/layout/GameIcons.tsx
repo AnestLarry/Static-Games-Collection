@@ -128,6 +128,30 @@ export const TetrisIcon: React.FC<GameIconProps> = ({ className }) => (
   </svg>
 );
 
+// Sudoku Icon (9-grid with numbers)
+export const SudokuIcon: React.FC<GameIconProps> = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+  >
+    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none" />
+    <line x1="9" y1="3" x2="9" y2="21" stroke="currentColor" strokeWidth="1" />
+    <line x1="15" y1="3" x2="15" y2="21" stroke="currentColor" strokeWidth="1" />
+    <line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" strokeWidth="1" />
+    <line x1="3" y1="15" x2="21" y2="15" stroke="currentColor" strokeWidth="1" />
+    <text x="6" y="7" textAnchor="middle" fontSize="4" fontWeight="bold" fill="currentColor">1</text>
+    <text x="12" y="7" textAnchor="middle" fontSize="4" fontWeight="bold" fill="currentColor">2</text>
+    <text x="18" y="7" textAnchor="middle" fontSize="4" fontWeight="bold" fill="currentColor">3</text>
+    <text x="6" y="13" textAnchor="middle" fontSize="4" fontWeight="bold" fill="currentColor">4</text>
+    <text x="12" y="13" textAnchor="middle" fontSize="4" fontWeight="bold" fill="currentColor">5</text>
+    <text x="18" y="13" textAnchor="middle" fontSize="4" fontWeight="bold" fill="currentColor">6</text>
+    <text x="6" y="19" textAnchor="middle" fontSize="4" fontWeight="bold" fill="currentColor">7</text>
+    <text x="12" y="19" textAnchor="middle" fontSize="4" fontWeight="bold" fill="currentColor">8</text>
+    <text x="18" y="19" textAnchor="middle" fontSize="4" fontWeight="bold" fill="currentColor">9</text>
+  </svg>
+);
+
 // More Games Icon
 export const MoreGamesIcon: React.FC<GameIconProps> = ({ className }) => (
   <svg

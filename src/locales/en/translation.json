@@ -15,7 +15,9 @@
     "go_description": "The ancient strategy board game. Surround territory to win!",
     "chinese-chess_description": "The strategic game of generals and soldiers. Conquer your opponent's king!",
     "snake_description": "The classic arcade game. Eat food, grow longer, and avoid collisions!",
-    "tetris_description": "The legendary block-stacking puzzle game. Clear lines and survive as long as you can!"
+    "tetris_description": "The legendary block-stacking puzzle game. Clear lines and survive as long as you can!",
+    "sudoku": "Sudoku",
+    "sudoku_description": "Classic number puzzle. Fill the 9x9 grid so each row, column, and 3x3 box contains 1-9!"
   },
   "language": "Language",
   "home": "Home",
@@ -174,6 +176,42 @@
         "high_score": "High Score",
         "level": "Level",
         "lines": "Lines",
+        "close": "Close",
+        "play_again": "Play Again"
+      }
+    },
+    "sudoku": {
+      "difficulty": "Difficulty",
+      "mistakes": "Mistakes",
+      "reset_game": "Reset Game",
+      "settings_button": "Settings",
+      "auto_notes": "Auto Fill Notes",
+      "controls": {
+        "click_number": "Click a cell, then a number to fill",
+        "keyboard": "Keyboard: 1-9 to fill, 0/Backspace to clear",
+        "notes_toggle": "N: Toggle notes mode, H: Get hint"
+      },
+      "settings": {
+        "title": "Sudoku Settings",
+        "difficulty": "Difficulty",
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard",
+        "max_mistakes": "Max Mistakes",
+        "unlimited": "Unlimited",
+        "show_timer": "Show Timer",
+        "highlight_conflicts": "Highlight Conflicts",
+        "apply": "Apply",
+        "cancel": "Cancel"
+      },
+      "result": {
+        "complete": "Puzzle Complete!",
+        "congratulations": "Congratulations! You solved it!",
+        "game_over": "Too many mistakes!",
+        "difficulty": "Difficulty",
+        "time": "Time",
+        "mistakes": "Mistakes",
+        "hints_used": "Hints Used",
         "close": "Close",
         "play_again": "Play Again"
       }
