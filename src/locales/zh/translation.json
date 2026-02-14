@@ -8,12 +8,14 @@
     "go": "围棋",
     "chinese-chess": "中国象棋",
     "snake": "贪吃蛇",
+    "tetris": "俄罗斯方块",
     "2048_description": "一个非常容易上瘾的数字益智游戏。合并图块以达到2048图块！",
     "minesweeper_description": "经典的逻辑益智游戏。清除棋盘，不要引爆任何地雷！",
     "tic-tac-toe_description": "经典的X和O游戏，规则可自定义！",
     "go_description": "古老的策略棋盘游戏。包围领土以获胜！",
     "chinese-chess_description": "将军和士兵的策略游戏。征服对手的国王！",
-    "snake_description": "经典的街机游戏。吃食物，变长，避免碰撞！"
+    "snake_description": "经典的街机游戏。吃食物，变长，避免碰撞！",
+    "tetris_description": "传奇的方块堆叠益智游戏。消除整行，尽可能坚持更久！"
   },
   "language": "语言",
   "home": "首页",
@@ -136,6 +138,42 @@
         "new_high_score": "新纪录！",
         "score": "分数",
         "high_score": "最高分",
+        "close": "关闭",
+        "play_again": "再玩一次"
+      }
+    },
+    "tetris": {
+      "score": "分数",
+      "high_score": "最高分",
+      "level": "等级",
+      "lines": "行数",
+      "next": "下一个",
+      "reset_game": "重置游戏",
+      "pause": "暂停",
+      "resume": "继续",
+      "settings_button": "设置",
+      "controls": {
+        "arrow_keys": "方向键：左右下移动",
+        "rotate": "上/W：旋转方块",
+        "hard_drop": "回车：硬降",
+        "space_to_pause": "空格：暂停/继续"
+      },
+      "settings": {
+        "title": "俄罗斯方块设置",
+        "speed": "初始速度",
+        "speed_hint": "数值越小速度越快",
+        "show_ghost": "显示幽灵方块",
+        "show_ghost_hint": "显示方块落点预览",
+        "apply": "应用",
+        "cancel": "取消"
+      },
+      "result": {
+        "game_over": "游戏结束",
+        "new_high_score": "新纪录！",
+        "score": "分数",
+        "high_score": "最高分",
+        "level": "等级",
+        "lines": "行数",
         "close": "关闭",
         "play_again": "再玩一次"
       }

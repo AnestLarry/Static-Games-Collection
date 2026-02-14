@@ -13,7 +13,9 @@
     "tic-tac-toe_description": "カスタマイズ可能なルールを備えたクラシックな三目並べゲーム！",
     "go_description": "古代の戦略ボードゲーム。領土を囲んで勝ちましょう！",
     "chinese-chess_description": "将軍と兵士の戦略ゲーム。相手の王を征服しましょう！",
-    "snake_description": "クラシックなアーケードゲーム。餌を食べて長くなり、衝突を避けましょう！"
+    "snake_description": "クラシックなアーケードゲーム。餌を食べて長くなり、衝突を避けましょう！",
+    "tetris": "テトリス",
+    "tetris_description": "伝説のブロック積み上げパズル。ラインを消して、できるだけ長く生き残ろう！"
   },
   "language": "言語",
   "home": "ホーム",
@@ -136,6 +138,42 @@
         "new_high_score": "新記録達成！",
         "score": "スコア",
         "high_score": "ハイスコア",
+        "close": "閉じる",
+        "play_again": "もう一度プレイ"
+      }
+    },
+    "tetris": {
+      "score": "スコア",
+      "high_score": "ハイスコア",
+      "level": "レベル",
+      "lines": "ライン",
+      "next": "次",
+      "reset_game": "ゲームをリセット",
+      "pause": "一時停止",
+      "resume": "再開",
+      "settings_button": "設定",
+      "controls": {
+        "arrow_keys": "矢印キー：左/右/下に移動",
+        "rotate": "上/W：ブロックを回転",
+        "hard_drop": "Enter：ハードドロップ",
+        "space_to_pause": "スペース：一時停止/再開"
+      },
+      "settings": {
+        "title": "テトリス設定",
+        "speed": "初期スピード",
+        "speed_hint": "低いほど速い開始",
+        "show_ghost": "ゴーストブロックを表示",
+        "show_ghost_hint": "ブロックの着地点を表示",
+        "apply": "適用",
+        "cancel": "キャンセル"
+      },
+      "result": {
+        "game_over": "ゲームオーバー",
+        "new_high_score": "新記録達成！",
+        "score": "スコア",
+        "high_score": "ハイスコア",
+        "level": "レベル",
+        "lines": "ライン",
         "close": "閉じる",
         "play_again": "もう一度プレイ"
       }

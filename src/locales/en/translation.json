@@ -8,12 +8,14 @@
     "go": "Go",
     "chinese-chess": "Chinese Chess",
     "snake": "Snake",
+    "tetris": "Tetris",
     "2048_description": "A highly addictive number puzzle. Combine tiles to reach the 2048 tile!",
     "minesweeper_description": "The classic logic puzzle. Clear the board without detonating any mines!",
     "tic-tac-toe_description": "The classic game of X's and O's with customizable rules!",
     "go_description": "The ancient strategy board game. Surround territory to win!",
     "chinese-chess_description": "The strategic game of generals and soldiers. Conquer your opponent's king!",
-    "snake_description": "The classic arcade game. Eat food, grow longer, and avoid collisions!"
+    "snake_description": "The classic arcade game. Eat food, grow longer, and avoid collisions!",
+    "tetris_description": "The legendary block-stacking puzzle game. Clear lines and survive as long as you can!"
   },
   "language": "Language",
   "home": "Home",
@@ -136,6 +138,42 @@
         "new_high_score": "New High Score!",
         "score": "Score",
         "high_score": "High Score",
+        "close": "Close",
+        "play_again": "Play Again"
+      }
+    },
+    "tetris": {
+      "score": "Score",
+      "high_score": "High Score",
+      "level": "Level",
+      "lines": "Lines",
+      "next": "Next",
+      "reset_game": "Reset Game",
+      "pause": "Pause",
+      "resume": "Resume",
+      "settings_button": "Settings",
+      "controls": {
+        "arrow_keys": "Arrow Keys: Move left/right/down",
+        "rotate": "Up/W: Rotate piece",
+        "hard_drop": "Enter: Hard drop",
+        "space_to_pause": "SPACE: Pause/Resume"
+      },
+      "settings": {
+        "title": "Tetris Settings",
+        "speed": "Starting Speed",
+        "speed_hint": "Lower = faster start",
+        "show_ghost": "Show Ghost Piece",
+        "show_ghost_hint": "Shows where piece will land",
+        "apply": "Apply",
+        "cancel": "Cancel"
+      },
+      "result": {
+        "game_over": "Game Over",
+        "new_high_score": "New High Score!",
+        "score": "Score",
+        "high_score": "High Score",
+        "level": "Level",
+        "lines": "Lines",
         "close": "Close",
         "play_again": "Play Again"
       }

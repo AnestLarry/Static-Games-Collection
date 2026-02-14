@@ -113,6 +113,21 @@ export const SnakeIcon: React.FC<GameIconProps> = ({ className }) => (
   </svg>
 );
 
+// Tetris Icon (stacked blocks)
+export const TetrisIcon: React.FC<GameIconProps> = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+  >
+    <rect x="4" y="14" width="5" height="5" rx="1" />
+    <rect x="9.5" y="14" width="5" height="5" rx="1" />
+    <rect x="9.5" y="8.5" width="5" height="5" rx="1" />
+    <rect x="15" y="14" width="5" height="5" rx="1" />
+    <rect x="9.5" y="3" width="5" height="5" rx="1" />
+  </svg>
+);
+
 // More Games Icon
 export const MoreGamesIcon: React.FC<GameIconProps> = ({ className }) => (
   <svg

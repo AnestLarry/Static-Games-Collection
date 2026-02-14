@@ -96,6 +96,20 @@ const HomePage: React.FC = () => {
           </div>
         </Link>
 
+        {/* Game Card for Tetris */}
+        <Link 
+          to="/games/tetris" 
+          className="block bg-white rounded-xl shadow-2xl hover:shadow-cyan-400/50 transform hover:-translate-y-1 transition-all duration-300 overflow-hidden group"
+        >
+          <div className="p-6">
+            <h2 className="text-2xl font-bold mb-3 text-cyan-700 group-hover:text-teal-600 transition-colors">{t('games.tetris')}</h2>
+            <p className="text-gray-700 mb-4">{t('games.tetris_description')}</p>
+            <span className="inline-block bg-cyan-500 group-hover:bg-teal-500 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors">
+              {t('play_now')}
+            </span>
+          </div>
+        </Link>
+
         {/* Add more game cards here by duplicating the structure above */}
       </div>
     </div>
